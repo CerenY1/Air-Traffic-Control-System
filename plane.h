@@ -11,7 +11,7 @@ class Plane{
 	protected:
 		tm departureTime;//hareket saati
 		tm estimatedArrivalTime;
-		int travelDuration;//seyehat sÃ¼resi
+		int travelDuration;//seyehat süresi
 		int passengerCapacity;
 		double price;
 		string model;
@@ -127,3 +127,4 @@ public:
 
 
 #endif
+

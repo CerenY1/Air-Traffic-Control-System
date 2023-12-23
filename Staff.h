@@ -1,14 +1,16 @@
 #ifndef STAFF_H
 #define STAFF_H
 #include "Plane.h"
-#include "Airports.h"
+//#include "Airports.h"
 #include <iostream>
 #include <iomanip>
+#include <string>
 
+using namespace std;
 
 class Staff{
 	protected:
-		auto takeFlightInfo(){
+		void takeFlightInfo(){
 			int planeNum,hours, flightTime;
 			cout<< "Choose a plane:" <<endl;
 			cout<< "1-> Pegasus 1"<<endl;
@@ -16,7 +18,7 @@ class Staff{
 			cout<< "3-> THY 1"<<endl;
 			cout<< "4-> THY 2"<<endl;
 			cin>> planeNum;
-			switch(planeNum){
+			/*	switch(planeNum){
 				case(1):
 					static Pegasus1 pegasus1;
 					cout<<"Enter the city of departure:"<<endl;
@@ -45,8 +47,8 @@ class Staff{
 					cout<<"Enter the city where the plane will land:"<<endl;
 					cin>>thy2.landingCity;		
 					Airport.findDistance(thy2.departureCity,thy2.landingCity);
-			}	
-		}	
+			}*/	
+		}
 };
 
 
