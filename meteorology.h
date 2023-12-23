@@ -3,8 +3,8 @@
 #include <ctime>
 using namespace std;
 
-//sıcaklığı, rüzgar hızını ve havanın sisli olup olmadığını "kendisi atar", kullanıcı değiştiremez
-//tüm hava şartlarınının uygun olup olmadığına karar verir ve chechWeather fonksiyonuyla return eder
+//sicaklik, rÃ¼zgar hizini ve havanin sisli olup olmadigini "kendisi atar", kullanici degistiremez
+//tÃ¼m hava sartlarÄ±nÄ±n uygun olup olmadiÄŸina karar verir ve chechWeather fonksiyonuyla return eder
 
 class Meteorology{
 	
@@ -31,14 +31,14 @@ class Meteorology{
 		void printWeatherInfo(){
 			
 			cout<<"----today's weather info----"<<endl<<endl;
-			cout<<"temperature: "<<temperature<<" °C"<<endl;
+			cout<<"temperature: "<<temperature<<" Â°C"<<endl;
 			cout<<"wind speed: "<<windSpeed<<" km/h"<<endl;
 			if(fog == 0)
 			cout<<"not foggy"<<endl;
 			else
 			cout<<"foggy"<<endl;
 		}
-		bool checkWeather(){//havadaki sis durumuna ve rüzgar hızına göre uçuş uygunluğuna kara verir.
+		bool checkWeather(){//havadaki sis durumuna ve rÃ¼zgar hÃ½zÃ½na gÃ¶re uÃ§uÃ¾ uygunluÃ°una kara verir.
 			
 			if(windSpeed<41){
 				if(fog ==0){
