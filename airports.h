@@ -5,7 +5,7 @@
 #include "meteorology.h"
 using namespace std;
 
-class irport{
+class Airport{
 	
 	private:
 			
@@ -68,6 +68,6 @@ class irport{
     //    ucanUcuslariKontrolEt(ucuslar);
     //    cout << "Bir dakika bekleniyor..." <<endl;
     //    time_t start_time = time(NULL);
-    //    while (time(NULL) - start_time < 5) {}  // 60 saniye bekleyin
+    //    while (time(NULL) - start_time < 60) {}  // 60 saniye bekleyin
     //}						 	
 };
