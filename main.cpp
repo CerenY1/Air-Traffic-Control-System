@@ -61,7 +61,7 @@ int main(int argc, char** argv) {
 			while (rowNum == 0) {
     			printAirportInfo();
     			int rowNum;
-				cout<<"enter the plane number to buy a ticket:"
+				cout<<"enter the plane number to buy a ticket:";
 				cin>>rowNum;
 				if(rowNum >=istanbul.arrivingPlanes.size()){
 					rowNum = rowNum - istanbul.arrivingPlanes.size();
@@ -79,7 +79,7 @@ int main(int argc, char** argv) {
 			while (rowNum == 0) {
     			printAirportInfo();
     			int rowNum;
-				cout<<"enter the plane number to buy a ticket:"
+				cout<<"enter the plane number to buy a ticket:";
 				cin>>rowNum;
 				if(rowNum >=paris.arrivingPlanes.size()){
 					rowNum = rowNum - paris.arrivingPlanes.size();
@@ -98,7 +98,7 @@ int main(int argc, char** argv) {
 			while (rowNum == 0) {
     			printAirportInfo();
     			int rowNum;
-				cout<<"enter the plane number to buy a ticket:"
+				cout<<"enter the plane number to buy a ticket:";
 				cin>>rowNum;
 				if(rowNum >=newyork.arrivingPlanes.size()){
 					rowNum = rowNum - newyork.arrivingPlanes.size();
