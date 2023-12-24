@@ -54,7 +54,7 @@ class Staff{
    			compareTimes(staffTime, *currentTime,duration);
     			cout << "The plane is now: " << plane.PlaneSt <<endl;
 }
-		void takeFlightInfo(){
+		Plane takeFlightInfo(){
 			int planeNum,hours, flightTime;
 			cout<< "Choose a plane:" <<endl;
 			cout<< "1-> Commertial Plane"<<endl;
@@ -63,14 +63,17 @@ class Staff{
 			cin>> planeNum;
 				switch(planeNum){
 				case(1):
-					static CommertialPlane commertialPlane;
+					CommertialPlane commertialPlane;
 					enterFlight(commertialPlane);
+					return commertialPlane;
 				case(2):
-					static CargoPlane cargoPlane;
+					CargoPlane cargoPlane;
 					enterFlight(cargoPlane);
+					return cargoPlane;
 				case(3):
-					static MilitaryPlane militaryPlane;
+					MilitaryPlane militaryPlane;
 					enterFlight(militaryPlane);
+					return militaryPlane;
 			}	
 		}
 };
