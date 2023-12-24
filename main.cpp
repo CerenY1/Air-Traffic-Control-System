@@ -59,8 +59,7 @@ int main(int argc, char** argv) {
 		if (passenger.currentLocation == "istanbul"){
 			printWelcomeAirport(todaysWeather);
 			while (rowNum == 0) {
-    			printAirportInfo();
-    			int rowNum;
+    				printAirportInfo();
 				cout<<"enter the plane number to buy a ticket:";
 				cin>>rowNum;
 				if(rowNum >=istanbul.arrivingPlanes.size()){
@@ -77,8 +76,7 @@ int main(int argc, char** argv) {
 		else if (passenger.currentLocation =="paris"){
 			printWelcomeAirport(todaysWeather);
 			while (rowNum == 0) {
-    			printAirportInfo();
-    			int rowNum;
+    				printAirportInfo();
 				cout<<"enter the plane number to buy a ticket:";
 				cin>>rowNum;
 				if(rowNum >=paris.arrivingPlanes.size()){
@@ -96,8 +94,7 @@ int main(int argc, char** argv) {
 		else if (passenger.currentLocation == "newyork"){
 			printWelcomeAirport(todaysWeather);
 			while (rowNum == 0) {
-    			printAirportInfo();
-    			int rowNum;
+    				printAirportInfo();
 				cout<<"enter the plane number to buy a ticket:";
 				cin>>rowNum;
 				if(rowNum >=newyork.arrivingPlanes.size()){
