@@ -19,7 +19,46 @@ class Passenger{
         vector<Ticket> getPurchasedTickets() {return purchasedTickets;}
         void setName() {
 			cout << "Enter your name: ";
-			cin>>name;
+			cin#ifndef PASSENGER_H
+#define PASSENGER_H
+#include <vector>
+#include "Ticket.h"
+#include <iostream>
+using namespace std;
+
+class Passenger{
+	private:
+		string name;
+		string gender;
+		int age;
+		string currentLocation;
+		string arrivalLocation;
+		vector<Ticket> purchasedTickets;
+		
+	public:
+		void enterPassengerInfo(){
+			cout << "Enter your current location: ";
+			cin >> currentLocation;
+			cout << "Enter where you want to go: ";
+			cin >> arrivalLocation;
+			cout << "Enter your name: ";
+			cin.ignore(); // Ignore any previous newline character in the buffer
+        	getline(cin, name);
+		}   
+		void disPlayInfoCommercial(){
+			cout << "Passenger's name:" << name << endl;
+		} 	
+		void disPlayInfoCargo(){
+			cout << "Send by:" << name << endl;
+		}
+		void disPlayInfoPrivate(){
+			cout << "Plane owner:" << name << endl;
+		}
+        void addTicket(const Ticket& ticket) {purchasedTickets.push_back(ticket)}
+    
+};
+
+#endif>>name;
 		} // strcpy kaldır
         void setGender(string& g) {strcpy(gender, g);} // strcpy kaldır
         void getAge(int a) {age = a;} kaldırdık */ 
