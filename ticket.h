@@ -74,9 +74,10 @@ class CommercialTicket : public Ticket{
 		}
 	}
 	void showBill(Plane& plane)override{
+		cout << "-------------------------" << endl;
 		cout << "Bill Information:" << endl;
 		passenger.disPlayInfoCommercial();
-		cout << "Ticket price:" << price << endl;
+		cout << "Ticket price:" << price << "$" << endl;
 		cout << "-------------------------" << endl;
 		cout <<"Plane Information:"<< endl;
 		friend void enterFlight(Plane& plane);
@@ -103,10 +104,12 @@ class CargoTicket : public Ticket{
 			cout << "Plane is not available." << endl;
 		}
 	}
-	void showBill(Plane& plane)override{
+	void showBill(Plane& plane)override
+	{
+		cout << "-------------------------" << endl;
 		cout << "Bill Information:" << endl;
 		passenger.disPlayInfoCargo();
-		cout << "Price : " <<price<<endl;
+		cout << "Price : " << price << "$" << endl;
 		
 	}
 };
@@ -120,7 +123,14 @@ class PrivateTicket : public Ticket{
 		passenger.disPlayInfoPrivate();
 	}
 	
-	void showBill
+	void showBill(Plane& plane)override
+	{
+		cout << "-------------------------" << endl;
+		cout << "Bill Information:" << endl;
+		passenger.disPlayInfoPrivate();
+		cout<< "Price : " << ticketPrice << "$"<< endl;
+		
+	}
 };
 
 
