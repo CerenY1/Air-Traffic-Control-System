@@ -1,7 +1,9 @@
+#ifndef TICKET_H
+#define TICKET_H
 #include <iostream>
 #include <string>
-#include <plane.h>
-#include <passenger.h>
+#include "plane.h"
+#include "passenger.h"
 
 using namespace std;
 
@@ -20,7 +22,7 @@ private:
 public:
 	virtual void sellTicket() = 0;
 	virtual void showBill() = 0; // abstraction ya da polimorfizm için tekrar bak.
-	
+	Passenger passenger;
 		bool checkPlaneSt(Plane& plane)
 	{
 		if(plane.planeSt == "Available")
@@ -45,8 +47,11 @@ class CommercialTicket : public Ticket{
 
 	void sellTicket(Plane& plane)override
 	{ 
-	Passenger passenger;
-	passenger.
+	passenger.enterPassengerInfo();
+	cout << "Enter your gender (M/F) :";
+	cin >> gender;
+	cout << "Enter your age: ";
+	cin >> age; // 18 yaşından büyük küçük olma durumuna sonra bak.	
 		if(checkPlaneSt())
 		{
 			cout << "How many tickets do you want to buy?" << endl;
@@ -70,7 +75,7 @@ class CommercialTicket : public Ticket{
 	}
 	void showBill(Plane& plane)override{
 		cout << "Bill Information:" << endl;
-		cout << "Passenger's name:" << passenger.name << endl;
+		passenger.disPlayInfoCommercial();
 		cout << "Ticket price:" << price << endl;
 		cout << "-------------------------" << endl;
 		cout <<"Plane Information:"<< endl;
@@ -81,6 +86,8 @@ class CommercialTicket : public Ticket{
 
 class CargoTicket : public Ticket{
 	friend class Passenger;
+	passenger.enterPassengerInfo();
+	int price=0;
 	void sellTicket(Plane& plane)override
 	{
 		if(checkPlaneSt())
@@ -89,6 +96,7 @@ class CargoTicket : public Ticket{
 		cout << "How many kilograms are your cargo?" << endl;
 		cin >> cargoWeight;
 		CargoPlane.addCargo(cargoWeight);
+		price = CargoPlane.ticketPrice*cargoWeight; 
 		}
 		else
 		{
@@ -96,18 +104,24 @@ class CargoTicket : public Ticket{
 		}
 	}
 	void showBill(Plane& plane)override{
-		//plane bilgileri ve bill information, kg başına fiyat
+		cout << "Bill Information:" << endl;
+		passenger.disPlayInfoCargo();
+		cout << "Price : " <<price<<endl;
+		
 	}
 };
 
 class PrivateTicket : public Ticket{
 	friend class Passenger;
-	void sellTicket(Plane& plane)override
+	const int ticketPrice=5000;
+	void sellTicket(PrivatePlane& privatePlane)override
 	{
-		
+		privatePlane.pilotList();
+		passenger.disPlayInfoPrivate();
 	}
+	
+	void showBill
 };
-	{
-		
-	}
-};
+
+
+#endif
