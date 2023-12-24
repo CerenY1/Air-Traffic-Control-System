@@ -7,15 +7,15 @@ using namespace std;
 
 class Ticket{
 private:
-	string departureAirport;
-	string arrivalAirport;
+	string departureCity;
+	string arrivalCity;
 	int seatNum;
     double price;
     string dateAndTime;
     int travelDuration;
     string passengerIdentity;
     
-    Ticket(string departure, string arrival, int seat, double cost, string dateTime, int duration) : departureAirport(departure), arrivalAirport(arrival),
+    Ticket(string departure, string arrival, int seat, double cost, string dateTime, int duration) : departureCity(departure), arrivalCity(arrival),
 	seatNum(seat), price(cost),dateAndTime(dateTime), travelDuration(duration), passengerIdentity(identity) {}
 public:
 	virtual void sellTicket() = 0;
@@ -45,11 +45,13 @@ class CommercialTicket : public Ticket{
 
 	void sellTicket(Plane& plane)override
 	{ 
-		cout << "How many tickets do you want to buy?" << endl;
-		cin >> *ticketNumbers;
-		if(plane.numOfTicket - *ticketNumbers >=0)
+	Passenger passenger;
+	passenger.
+		if(checkPlaneSt())
 		{
-			if(checkPlaneSt())
+			cout << "How many tickets do you want to buy?" << endl;
+			cin >> *ticketNumbers;
+			if(plane.numOfTicket - *ticketNumbers >=0)
 			{
 			plane.numOfTicket -= *ticketNumbers;
 			price = ticketNumbers * plane.ticketPrice;
@@ -58,20 +60,21 @@ class CommercialTicket : public Ticket{
 			}
 			else
 			{
-				cout << "Plane is not available." << endl;
+				cout << "There is no enough ticket." << endl;
 			}
 		}
 		else
 		{
-			cout << "There is no enough ticket." << endl;
+			cout <<  "Plane is not available."<< endl;
 		}
 	}
 	void showBill(Plane& plane)override{
 		cout << "Bill Information:" << endl;
 		cout << "Passenger's name:" << passenger.name << endl;
 		cout << "Ticket price:" << price << endl;
+		cout << "-------------------------" << endl;
 		cout <<"Plane Information:"<< endl;
-		// plane bilgileri
+		friend void enterFlight(Plane& plane);
 	}
 	
 };
@@ -100,6 +103,10 @@ class CargoTicket : public Ticket{
 class PrivateTicket : public Ticket{
 	friend class Passenger;
 	void sellTicket(Plane& plane)override
+	{
+		
+	}
+};
 	{
 		
 	}
