@@ -13,15 +13,19 @@ private:
     int age;
     string currentLocation;
     string arrivalLocation;
-    vector<Ticket> purchasedTickets;
+
 public:
-    Passenger(string n, string g, int a) : name{n}, gender{g}, age{a} {}
+    friend class Ticket;
+    vector<CargoTicket> CargoTickets;
+    vector<CommercialTicket> CommercialTickets;
+    Passenger(string n="", string g="", int a=0) : name{n}, gender{g}, age{a} {}
     string getName() { return name;}
     string getGender() { return gender;}
     int getAge() { return age;}
-    void setName(string name1){name1 = this->name;}
-    void setGender(string gender1){gender1 = this->gender;}
-    void setAge(int age1){age1 = this->age;}
+
+    void setName(string name1) { this->name = name1; }
+    void setGender(string gender1) { this->gender = gender1; }
+    void setAge(int age1) { this->age = age1; }
     void disPlayInfoCommercial(){
         cout << "Passenger's name:" << name << endl;
     }
@@ -31,12 +35,18 @@ public:
     void disPlayInfoPrivate(){
         cout << "Plane owner:" << name << endl;
     }
-    void addTicket(Ticket& ticket) {purchasedTickets.push_back(ticket);}
+    void addCargoTicket(CargoTicket& cargoTicket) {
+        CargoTickets.push_back(cargoTicket);
+    }
+
+    void addCommercialTicket(CommercialTicket& commercialTicket) {
+        CommercialTickets.push_back(commercialTicket);
+    }
 
     void enterPassengerInfo(){
-        cout << "Enter your current location: ";
+        cout << "Enter fly from: ";
         cin >> currentLocation;
-        cout << "Enter where you want to go: ";
+        cout << "Enter fly to: ";
         cin >> arrivalLocation;
         cout << "Enter your name: ";
         cin.ignore();
@@ -45,6 +55,13 @@ public:
         cin >> gender;
         cout << "Enter your age: ";
         cin >> age; // 18 yaşından büyük küçük olma durumuna sonra bak.
+    }
+
+    string getCurrentLocation(){
+        return currentLocation;
+    }
+    string getArrivalLocation(){
+        return arrivalLocation;
     }
 };
 
