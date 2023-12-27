@@ -1,123 +1,186 @@
+#ifndef UNTITLED2_PLANE_H
+#define UNTITLED2_PLANE_H
 #include <iostream>
-#include <vector>
-#include "plane.h"
-#include "staff.h"
-#include "airport.h"
-#include "meteorology.h"
-#include "passenger.h"
-#include "ticket.h"
+#include <iomanip>
 #include <ctime>
 #include <string>
-
 using namespace std;
 
-int main() {
+class Plane {
+    friend class Staff;
+    friend class Airport;
+    friend class Ticket;
+public:
+    Plane(string depTime = " ", string estArrivalTime = " ", double duration = 0, const string mdl = "",
+          int capacity = 0, double price = 0.0, const string depCity = "", const string landCity = "",const int sp = 0)
+            : departureTime(formatTime2(depTime)), estimatedArrivalTime(formatTime2(estArrivalTime)),
+              travelDuration(duration), model(mdl), passengerCapacity(capacity), price(price),
+              departureCity(depCity), landingCity(landCity) ,speed(sp) {}
 
-    int choice, choice2;
-    Meteorology todaysWeather;
-    Airport istanbul("istanbul");
-    Airport newyork("newyork");
-    Airport paris("paris");
-
-
-    do {
-        cout << "choose one:" << endl << "1. Staff" << endl << "2. Passenger" << endl;
-        cin >> choice;
-        while (choice == 1) {
-            Staff staff;
-            cout << "Choose plane type:" << endl;
-            cout << "1.Commercial Plane" << endl;
-            cout << "2.Private Plane" << endl;
-            cout << "3.Military Plane" << endl;
-            cout << "4.Cargo Plane" << endl;
-            cin >> choice2;
-            if (choice2 == 1) {
-                CommercialPlane *commercialPlane = new CommercialPlane;
-                if (commercialPlane->getDepartureCity() == "istanbul" ||
-                    commercialPlane->getArrivalCity() == "istanbul") {
-                    istanbul.addPlaneToAirport(*commercialPlane);
-                }
-                if (commercialPlane->getDepartureCity() == "paris" || commercialPlane->getArrivalCity() == "paris") {
-                    paris.addPlaneToAirport(*commercialPlane);
-
-                }
-                if (commercialPlane->getDepartureCity() == "newyork" ||
-                    commercialPlane->getArrivalCity() == "newyork") {
-                    newyork.addPlaneToAirport(*commercialPlane);
-                }
-            }
+    string getArrivalCity(){
+        return landingCity;
+    }
+    string getDepartureCity(){
+        return departureCity;
+    }
+    tm calculateArrivalTime(string c1, string c2){
+        int distance;
+        if ((c1 == "newyork" && c2 == "paris") || (c1 == "paris" && c2 == "newyork")) {
+            distance = 6000.0;
+            travelDuration = distance/ this->speed;
+        } else if ((c1 == "newyork" && c2 == "istanbul") || (c1 == "istanbul" && c2 == "newyork")) {
+            distance = 8000.0;
+            travelDuration = distance/ this->speed;
+        } else if ((c1 == "paris" && c2 == "istanbul") || (c1 == "istanbul" && c2 == "paris")) {
+            distance = 2000.0;
+            travelDuration = distance/ this->speed;
         }
-        while (choice == 2) {
-            Passenger passenger;
-            passenger.enterPassengerInfo();
-            int rowNum = 0;
-            if (passenger.getCurrentLocation() == "istanbul") {
-                istanbul.printWelcomeAirport(todaysWeather);
-                while (rowNum == 0) {
-                    istanbul.printAirportInfo();
-                    cout << "enter the plane number to buy a ticket:";
-                    cin >> rowNum;
-                    if (rowNum <= istanbul.CommercialPlanes.size()) {
-                        CommercialTicket *ticket = new CommercialTicket;
-                        ticket->sellTicket(istanbul.CommercialPlanes[rowNum]);
-                    } else {
-                        CargoTicket *ticket = new CargoTicket;
-                        ticket->sellTicket(istanbul.CargoPlanes[rowNum - istanbul.CargoPlanes.size()]);
-                    }
-                    cout << "waiting for update..." << endl;
-                    cin >> rowNum;
-                    time_t start_time = time(NULL);
-                    while (time(NULL) - start_time < 60) {}
-                }
-            } else if (passenger.getCurrentLocation() == "paris") {
-                paris.printWelcomeAirport(todaysWeather);
-                while (rowNum == 0) {
-                    paris.printAirportInfo();
-                    cout << "enter the plane number to buy a ticket:";
-                    cin >> rowNum;
-                    if (rowNum <= paris.CommercialPlanes.size()) {
-                        CommercialTicket *ticket = new CommercialTicket;
-                        ticket->sellTicket(paris.CommercialPlanes[rowNum]);
-                    } else {
-                        CargoTicket *ticket = new CargoTicket;
-                        ticket->sellTicket(paris.CommercialPlanes[rowNum - paris.CommercialPlanes.size()]);
-                    }
-                    cout << "waiting for update..." << endl;
-                    cin >> rowNum;
-                    time_t start_time = time(NULL);
-                    while (time(NULL) - start_time < 60) {}
-                }
+        string time = to_string(this->travelDuration);
+        return formatTime2(time);
+    }
+    // Helper function to convert string to tm:
+    tm formatTime2(const string& timeStr) {
+        tm parsedTime = {};
+        return parsedTime;
+    }
+    bool checkPlaneSt(Plane& plane){
+        if (plane.PlaneSt == "Available")
+            return 1;
+        else
+            return 0;
+    }
+    void displayInfo() {
+        char timeStr[10];
+        strftime(timeStr, sizeof(timeStr), "%Y-%m-%d %H:%M:%S", &departureTime);
+        cout << "Departure Time: " << timeStr << endl;
+        cout << "Travel Duration: "  << travelDuration << endl;
+        cout << "Model: " << model << endl;
+        cout << "Price: " << price << "$" << endl;
+        cout<< "-------------------------------------------" <<endl;
+    }
+    void enterInfo(){
+        char timeStr[10];
+        strftime(timeStr, sizeof(timeStr), "%Y-%m-%d %H:%M:%S", &departureTime);
+        cout << "Departure City: " << endl;
+        cin >> this->departureCity;
+        cout << "Arrival City: "<< endl;
+        cin >>this->landingCity;
+        calculateArrivalTime(departureCity,landingCity);
+        cout<< "-------------------------------------------" <<endl;
+        displayInfo();
+    }
 
-            } else if (passenger.getCurrentLocation() == "newyork") {
-                newyork.printWelcomeAirport(todaysWeather);
-                while (rowNum == 0) {
-                    newyork.printAirportInfo();
-                    cout << "enter the plane number to buy a ticket:";
-                    cin >> rowNum;
-                    if (rowNum >= newyork.CommercialPlanes.size()) {
-                        CommercialTicket *ticket = new CommercialTicket;
-                        ticket->sellTicket(newyork.CommercialPlanes[rowNum]);
-                    } else {
-                        CargoTicket *ticket = new CargoTicket;
-                        ticket->sellTicket(newyork.CargoPlanes[rowNum - newyork.CommercialPlanes.size()]);
-                    }
-                    cout << "waiting for update..." << endl;
-                    cin >> rowNum;
-                    time_t start_time = time(NULL);
-                    while (time(NULL) - start_time < 60) {}
-                }
+protected:
+    tm departureTime;
+    tm estimatedArrivalTime;
+    int travelDuration;
+    int passengerCapacity;
+    double price;
+    string model;
+    string departureCity;
+    string landingCity;
+    string PlaneSt;
+    const int istToPar = 300;
+    const int istToNy = 200;
+    const int parToNy = 250;
+    const int speed;
+    //calculate arrival time !!!!!
 
-            } else
-                cout << "location not found.." << endl;
+
+};
+class CommercialPlane : public Plane{
+private:
+    int ticketNum;
+    int ticketPrice;
+public:
+    CommercialPlane(string depTime = " ", string estArrivalTime = " ", double duration = 0, const string mdl = "",
+                    int capacity = 0, double price = 0.0, const string depCity = "", const string landCity = "",const int sp = 100)
+            : Plane(depTime, estArrivalTime, duration, mdl, capacity, price, depCity, landCity,sp) {
+        ticketNum = 5;
+        ticketPrice = 50;
+    }
+    void disPlayInfo(){
+        Plane::displayInfo();
+    }
+    void setTicketNum(int tickets){
+        ticketNum -=tickets;}
+    int getTicketNum(){
+        return ticketNum;
+    }
+    int getTicketPrice(){
+        return ticketPrice;
+    }
+
+};
+
+class PrivatePlane : public Plane {
+public:
+    friend class Staff;
+    string pilotName;
+    PrivatePlane(string depTime = " ", string estArrivalTime = " ", double duration = 0, const string mdl = "",
+                 int capacity = 0, double price = 0.0, const string depCity = "", const string landCity = "",const int sp = 250)
+            : Plane(depTime, estArrivalTime, duration, mdl, capacity, price, depCity, landCity,sp) {}
+
+    string pilotList(){
+        cout<<"Choose pilot name: "<<endl;
+        cout<<"Captain Alex Turner"<<endl;
+        cout<<"Captain Emily Mitchell"<<endl;
+        cout<<"Captain Javier Rodriguez"<<endl;
+        cin.ignore();
+        getline(cin, pilotName);
+        return pilotName;
+    }
+    void displayInfo() {
+        Plane::displayInfo();
+        cout << "Pilot: " << pilotName << std::endl;
+    }
+    void setPilotName(const string pilot) {
+        pilotName = pilot;
+    }
+};
+
+class CargoPlane : public Plane {
+private:
+    double cargoCapacity=0;
+    double currentCargoWeight=0;
+    int ticketPrice;
+public:
+    CargoPlane(string depTime = " ", string estArrivalTime = " ", double duration = 0, const string mdl = "",
+               int capacity = 0, double price = 0.0, const string depCity = "", const string landCity = "",const int sp = 150)
+            : Plane(depTime, estArrivalTime, duration, mdl, capacity, price, depCity, landCity,sp) {
+        ticketPrice = 100;
+    }
+    int getTicketPrice(){
+        return ticketPrice;
+    }
+    void addCargo(double weight) {
+        if (currentCargoWeight + weight <= cargoCapacity) {
+            currentCargoWeight += weight;
+            cout << "Cargo added. Current Cargo Weight: " << currentCargoWeight << " tons" <<endl;
         }
+        else
+            cout << "Cargo not added. Exceeds cargo capacity." <<endl;
+    }
+    void displayInfo() {
+        Plane::displayInfo();
+        cout << "Cargo Capacity: " << cargoCapacity << " tons" <<endl;
+        //add cargoyu burada çalıştır!
+    }
+};
 
-
-    cout << "Press 3 to return to main menu." << endl;
-    cin >> choice;
-
-}while(choice==3);
-
-
-
-    return 0;
-}
+class MilitaryPlane : public Plane {
+public:
+    int weaponCapacity;
+    string missionType;
+    MilitaryPlane(string depTime = " ", string estArrivalTime = " ", double duration = 0, const string mdl = "",
+                  int capacity = 0, double price = 0.0, const string depCity = "", const string landCity = "",const int sp = 500)
+            : Plane(depTime, estArrivalTime, duration, mdl, capacity, price, depCity, landCity,sp) {}
+    void displayInfo() {
+        Plane::displayInfo();
+        std::cout << "Weapon Capacity: " << weaponCapacity << " units" << std::endl;
+    }
+    void setMissionType(const string mission) {
+        missionType = mission;
+    }
+};
+#endif //UNTITLED2_PLANE_H
