@@ -1,116 +1,123 @@
 #include <iostream>
-#include <string>
-#include <ctime>
-#include <iomainip>
 #include <vector>
-#include "airports.h"
 #include "plane.h"
-#include "ticket.h"
+#include "staff.h"
+#include "airport.h"
+#include "meteorology.h"
 #include "passenger.h"
-#include "meteorology.h
+#include "ticket.h"
+#include <ctime>
+#include <string>
+
 using namespace std;
 
-int main(int argc, char** argv) {
-	int choice;
-	vector <Plane> planesIst;
-	vector <Plane> planesNy;
-	vector <Plane> planesPar;
-	Airport istanbul;
-	Airport paris;
-	Airport newyork;
-	Meteorology todaysWeather;
-	istanbul.setAirportName(istanbul);
-	newyork.setAirportName(newyork);
-	paris.setAirportName(paris);
-	cout<<"choose one:"<<endl<<"1. Staff"<<endl<<"2. Passenger"<<endl;
-	cin>>choice;
-	
-	if(choice){	
-		Staff staff;
-		Plane* plane = new Plane ;
-		plane = staff.takeFlightInfo();	
-		if (plane.departureCity == "istanbul"||plane.landingCity== "istanbul"){
-			planesIst.push_back(plane);
-			if(plane.landingCity == "istanbul")
-				istanbul.addArrivingPlaneToAirport(plane);
-			else 
-				istanbul.addLeavingPlaneToAirport(plane);
-		}
-		if (plane.departureCity =="paris"||plane.landingCity== "paris"){
-			planesPar.push_back(plane);
-			if(plane.landingCity == "paris")
-				paris.addArrivingPlaneToAirport(plane);
-			else 
-				paris.addLeavingPlaneToAirport(plane);
-		}
-		else if (plane.departureCity == "newyork"||plane.landingCity== "newyork"){
-			planesNy.push_back(plane);
-			if(plane.landingCity == "newyork")
-				newyork.addArrivingPlaneToAirport(plane);
-			else 
-				newyork.addLeavingPlaneToAirport(plane);
-		}
-	}
-	
-	else{
-		Passenger passenger;
-		passenger.enterPassengerInfo();
-		int rowNum = 0;
-		if (passenger.currentLocation == "istanbul"){
-			printWelcomeAirport(todaysWeather);
-			while (rowNum == 0) {
-    				printAirportInfo();
-				cout<<"enter the plane number to buy a ticket:";
-				cin>>rowNum;
-				if(rowNum >=istanbul.arrivingPlanes.size()){
-					rowNum = rowNum - istanbul.arrivingPlanes.size();
-					istanbul.leavingPlanes[rowNum];
-				}
-			 	else istanbul.arrivingPlanes[rowNum];
-    			cout << "waiting for update..." <<endl;
-    			cin>>opNum;
-    			time_t start_time = time(NULL);
-    			while (time(NULL) - start_time < 60) {}
-    		}
-		}
-		else if (passenger.currentLocation =="paris"){
-			printWelcomeAirport(todaysWeather);
-			while (rowNum == 0) {
-    				printAirportInfo();
-				cout<<"enter the plane number to buy a ticket:";
-				cin>>rowNum;
-				if(rowNum >=paris.arrivingPlanes.size()){
-					rowNum = rowNum - paris.arrivingPlanes.size();
-					paris.leavingPlanes[rowNum];
-				}
-			 	else paris.arrivingPlanes[rowNum];
-    			cout << "waiting for update..." <<endl;
-    			cin>>opNum;
-    			time_t start_time = time(NULL);
-    			while (time(NULL) - start_time < 60) {}
-    		}
-			
-		}
-		else if (passenger.currentLocation == "newyork"){
-			printWelcomeAirport(todaysWeather);
-			while (rowNum == 0) {
-    				printAirportInfo();
-				cout<<"enter the plane number to buy a ticket:";
-				cin>>rowNum;
-				if(rowNum >=newyork.arrivingPlanes.size()){
-					rowNum = rowNum - newyork.arrivingPlanes.size();
-					newyork.leavingPlanes[rowNum];
-				}
-			 	else newyork.arrivingPlanes[rowNum];
-    			cout << "waiting for update..." <<endl;
-    			cin>>opNum;
-    			time_t start_time = time(NULL);
-    			while (time(NULL) - start_time < 60) {}
-    		}
-			
-		}
-		else 
-		cout << "location not found.."<< endl;
-	}
-	return 0;
+int main() {
+
+    int choice, choice2;
+    Meteorology todaysWeather;
+    Airport istanbul("istanbul");
+    Airport newyork("newyork");
+    Airport paris("paris");
+
+
+    do {
+        cout << "choose one:" << endl << "1. Staff" << endl << "2. Passenger" << endl;
+        cin >> choice;
+        while (choice == 1) {
+            Staff staff;
+            cout << "Choose plane type:" << endl;
+            cout << "1.Commercial Plane" << endl;
+            cout << "2.Private Plane" << endl;
+            cout << "3.Military Plane" << endl;
+            cout << "4.Cargo Plane" << endl;
+            cin >> choice2;
+            if (choice2 == 1) {
+                CommercialPlane *commercialPlane = new CommercialPlane;
+                if (commercialPlane->getDepartureCity() == "istanbul" ||
+                    commercialPlane->getArrivalCity() == "istanbul") {
+                    istanbul.addPlaneToAirport(*commercialPlane);
+                }
+                if (commercialPlane->getDepartureCity() == "paris" || commercialPlane->getArrivalCity() == "paris") {
+                    paris.addPlaneToAirport(*commercialPlane);
+
+                }
+                if (commercialPlane->getDepartureCity() == "newyork" ||
+                    commercialPlane->getArrivalCity() == "newyork") {
+                    newyork.addPlaneToAirport(*commercialPlane);
+                }
+            }
+        }
+        while (choice == 2) {
+            Passenger passenger;
+            passenger.enterPassengerInfo();
+            int rowNum = 0;
+            if (passenger.getCurrentLocation() == "istanbul") {
+                istanbul.printWelcomeAirport(todaysWeather);
+                while (rowNum == 0) {
+                    istanbul.printAirportInfo();
+                    cout << "enter the plane number to buy a ticket:";
+                    cin >> rowNum;
+                    if (rowNum <= istanbul.CommercialPlanes.size()) {
+                        CommercialTicket *ticket = new CommercialTicket;
+                        ticket->sellTicket(istanbul.CommercialPlanes[rowNum]);
+                    } else {
+                        CargoTicket *ticket = new CargoTicket;
+                        ticket->sellTicket(istanbul.CargoPlanes[rowNum - istanbul.CargoPlanes.size()]);
+                    }
+                    cout << "waiting for update..." << endl;
+                    cin >> rowNum;
+                    time_t start_time = time(NULL);
+                    while (time(NULL) - start_time < 60) {}
+                }
+            } else if (passenger.getCurrentLocation() == "paris") {
+                paris.printWelcomeAirport(todaysWeather);
+                while (rowNum == 0) {
+                    paris.printAirportInfo();
+                    cout << "enter the plane number to buy a ticket:";
+                    cin >> rowNum;
+                    if (rowNum <= paris.CommercialPlanes.size()) {
+                        CommercialTicket *ticket = new CommercialTicket;
+                        ticket->sellTicket(paris.CommercialPlanes[rowNum]);
+                    } else {
+                        CargoTicket *ticket = new CargoTicket;
+                        ticket->sellTicket(paris.CommercialPlanes[rowNum - paris.CommercialPlanes.size()]);
+                    }
+                    cout << "waiting for update..." << endl;
+                    cin >> rowNum;
+                    time_t start_time = time(NULL);
+                    while (time(NULL) - start_time < 60) {}
+                }
+
+            } else if (passenger.getCurrentLocation() == "newyork") {
+                newyork.printWelcomeAirport(todaysWeather);
+                while (rowNum == 0) {
+                    newyork.printAirportInfo();
+                    cout << "enter the plane number to buy a ticket:";
+                    cin >> rowNum;
+                    if (rowNum >= newyork.CommercialPlanes.size()) {
+                        CommercialTicket *ticket = new CommercialTicket;
+                        ticket->sellTicket(newyork.CommercialPlanes[rowNum]);
+                    } else {
+                        CargoTicket *ticket = new CargoTicket;
+                        ticket->sellTicket(newyork.CargoPlanes[rowNum - newyork.CommercialPlanes.size()]);
+                    }
+                    cout << "waiting for update..." << endl;
+                    cin >> rowNum;
+                    time_t start_time = time(NULL);
+                    while (time(NULL) - start_time < 60) {}
+                }
+
+            } else
+                cout << "location not found.." << endl;
+        }
+
+
+    cout << "Press 3 to return to main menu." << endl;
+    cin >> choice;
+
+}while(choice==3);
+
+
+
+    return 0;
 }
