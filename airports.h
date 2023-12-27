@@ -12,9 +12,7 @@ using namespace std;
 class Airport{
 private:
     string airportName;
-    const int istToPar = 300;
-    const int istToNy = 200;
-    const int parToNy = 250;
+
 public:
     vector <CommercialPlane> CommercialPlanes;
     vector <CargoPlane >CargoPlanes;
@@ -69,25 +67,15 @@ public:
 
     }
     void addPlaneToAirport(CargoPlane& p1) {
-            CargoPlanes.push_back(p1);
+        CargoPlanes.push_back(p1);
 
     }
     void addPlaneToAirport(CommercialPlane& p1){
-            CommercialPlanes.push_back(p1);
+        CommercialPlanes.push_back(p1);
     }
 
     void addPlaneToAirport(MilitaryPlane& p1){
-            MilitaryPlanes.push_back(p1);
-    }
-
-    int findDistance(string city1, string city2){
-
-        if((city1 == "istanbul" && city2 == "newyork")||(city1 == "newyork" && city2 == "istanbul"))
-            return istToNy;
-        else if ((city1 == "istanbul" && city2 == "paris")||(city1 == "paris" && city2 == "istanbul"))
-            return istToPar;
-        else if ((city1 == "paris" && city2 == "newyork")||(city1 == "newyork" && city2 == "paris"))
-            return parToNy;
+        MilitaryPlanes.push_back(p1);
     }
 };
 #endif //UNTITLED2_AIRPORT_H
