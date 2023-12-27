@@ -11,15 +11,40 @@ class Plane {
     friend class Airport;
     friend class Ticket;
 public:
-    Plane(string depTime = " ", string  estimatedArrivalTime = " ", int duration = 0, const string mdl = "",
-             int capacity = 0, double price = 0.0, const string depCity = "", const string landCity = "")
-            : departureTime(depTime), travelDuration(duration), model(mdl),
-              passengerCapacity(capacity), price(price), departureCity(depCity), landingCity(landCity) {}
+    Plane(string depTime = " ", string estArrivalTime = " ", int duration = 0, const string mdl = "",
+          int capacity = 0, double price = 0.0, const string depCity = "", const string landCity = "")
+            : departureTime(formatTime2(depTime)), estimatedArrivalTime(formatTime2(estArrivalTime)),
+              travelDuration(duration), model(mdl), passengerCapacity(capacity), price(price),
+              departureCity(depCity), landingCity(landCity) {}
+
+    string getArrivalCity(){
+        return landingCity;
+    }
+    string getDepartureCity(){
+        return departureCity;
+    }
+
+    // Helper function to convert string to tm:
+    tm formatTime2(const string& timeStr) {
+        tm parsedTime = {}; // Initialize all fields to 0
+        // Code to parse the string and set the fields of parsedTime
+        return parsedTime;
+    }
     bool checkPlaneSt(Plane& plane){
         if (plane.PlaneSt == "Available")
             return 1;
         else
             return 0;
+    }
+    void displayInfo() {
+        char timeStr[10];
+        strftime(timeStr, sizeof(timeStr), "%Y-%m-%d %H:%M:%S", &departureTime);
+        cout << "Departure Time: " << timeStr << endl;
+        cout << "Travel Duration: " << travelDuration/60 <<"."<< travelDuration%60<<" hours " << endl;
+        cout << "Model: " << model << endl;
+        cout << "Passenger Capacity: " << passengerCapacity << " passengers" << endl;
+        cout << "Price: " << price << "$" << endl;
+        cout<< "-------------------------------------------" <<endl;
     }
 protected:
     tm departureTime;
@@ -34,36 +59,28 @@ protected:
 
     //calculate arrival time !!!!!
 
-    void displayInfo() {
-        char timeStr[10];
-        strftime(timeStr, sizeof(timeStr), "%Y-%m-%d %H:%M:%S", &departureTime);
-        cout << "Departure Time: " << timeStr << endl;
-        cout << "Travel Duration: " << travelDuration/60 <<"."<< travelDuration%60<<" hours " << endl;
-        cout << "Model: " << model << endl;
-        cout << "Passenger Capacity: " << passengerCapacity << " passengers" << endl;
-        cout << "Price: " << price << "$" << endl;
-        cout<< "-------------------------------------------" <<endl;
-    }
+
 };
 class CommercialPlane : public Plane{
+private:
     int ticketNum;
     int ticketPrice;
 public:
-    CommercialPlane(tm depTime = {}, tm estimatedArrivalTime = {}, int duration = 0, const string mdl = "",
+    CommercialPlane(string depTime = " ", string estArrivalTime = " ", int duration = 0, const string mdl = "",
                     int capacity = 0, double price = 0.0, const string depCity = "", const string landCity = "")
-            : Plane(depTime, estimatedArrivalTime, duration, mdl, capacity, price, depCity, landCity) {
+            : Plane(depTime, estArrivalTime, duration, mdl, capacity, price, depCity, landCity) {
         ticketNum = 5;
         ticketPrice = 50;
     }
-void disPlayInfo(){
-    Plane::displayInfo();
-}
-void setTicketNum(int tickets){
+    void disPlayInfo(){
+        Plane::displayInfo();
+    }
+    void setTicketNum(int tickets){
         ticketNum -=tickets;}
-int getTicketNum(){
+    int getTicketNum(){
         return ticketNum;
-}
-int getTicketPrice(){
+    }
+    int getTicketPrice(){
         return ticketPrice;
     }
 
@@ -74,7 +91,7 @@ public:
     friend class Staff;
     string pilotName;
 
-   //constructor yaz!!!
+    //constructor yaz!!!
 
     void pilotList(){
         cout<<"Choose pilot name: "<<endl;
@@ -90,21 +107,27 @@ public:
 };
 
 class CargoPlane : public Plane {
-public:
+private:
     double cargoCapacity=0;
     double currentCargoWeight=0;
-
-    CargoPlane(tm depTime = {}, tm estimatedArrivalTime = {}, int duration = 0, const string mdl = "",
+    int ticketPrice;
+public:
+    CargoPlane(string depTime = " ", string estArrivalTime = " ", int duration = 0, const string mdl = "",
                int capacity = 0, double price = 0.0, const string depCity = "", const string landCity = "")
-            : Plane(depTime, estimatedArrivalTime, duration, mdl, capacity, price, depCity, landCity) {}
-   void addCargo(double weight) {
-       if (currentCargoWeight + weight <= cargoCapacity) {
-           currentCargoWeight += weight;
-           cout << "Cargo added. Current Cargo Weight: " << currentCargoWeight << " tons" <<endl;
-       }
-       else
-           cout << "Cargo not added. Exceeds cargo capacity." <<endl;
-   }
+            : Plane(depTime, estArrivalTime, duration, mdl, capacity, price, depCity, landCity) {
+        ticketPrice = 100;
+    }
+    int getTicketPrice(){
+        return ticketPrice;
+    }
+    void addCargo(double weight) {
+        if (currentCargoWeight + weight <= cargoCapacity) {
+            currentCargoWeight += weight;
+            cout << "Cargo added. Current Cargo Weight: " << currentCargoWeight << " tons" <<endl;
+        }
+        else
+            cout << "Cargo not added. Exceeds cargo capacity." <<endl;
+    }
     void displayInfo() {
         Plane::displayInfo();
         cout << "Cargo Capacity: " << cargoCapacity << " tons" <<endl;
@@ -117,9 +140,9 @@ public:
     int weaponCapacity;
     string missionType;
 
-    MilitaryPlane(tm depTime = {}, tm estimatedArrivalTime = {}, int duration = 0, const string mdl = "",
+    MilitaryPlane(string depTime = " ", string estArrivalTime = " ", int duration = 0, const string mdl = "",
                   int capacity = 0, double price = 0.0, const string depCity = "", const string landCity = "")
-            : Plane(depTime, estimatedArrivalTime, duration, mdl, capacity, price, depCity, landCity) {}
+            : Plane(depTime, estArrivalTime, duration, mdl, capacity, price, depCity, landCity) {}
 
     void displayInfo() {
         Plane::displayInfo();
