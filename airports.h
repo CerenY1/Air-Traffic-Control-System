@@ -16,6 +16,10 @@ private:
     const int istToNy = 200;
     const int parToNy = 250;
 public:
+    vector <CommercialPlane> CommercialPlanes;
+    vector <CargoPlane >CargoPlanes;
+    vector <MilitaryPlane> MilitaryPlanes;
+
     Airport(const string name):airportName(name){}
 
     void printWelcomeAirport(Meteorology& todaysWeather){
@@ -32,7 +36,7 @@ public:
         oss << setfill('0') << setw(2) << time.tm_hour << ":" << setw(2) << time.tm_min;
         return oss.str();
     }
-    void printAirportInfo(vector <Plane> arrivingPlanes,vector <Plane> leavingPlanes){
+    void printAirportInfo(){
         time_t timeNow1 = time(NULL);
         int rowNum = 1;
         cout<<left<<setw(20) <<"Flight Number"
@@ -42,7 +46,7 @@ public:
             <<setw(20) << "Departure Time"
             <<setw(20) << "Arrival Time"
             <<setw(20)<<"Status"<< endl;
-        for (const auto& plane : arrivingPlanes) {
+        for (const auto& plane : CommercialPlanes) {
 
             cout<< setw(5) << rowNum++
                 <<setw(20)<<plane.model
@@ -52,7 +56,7 @@ public:
                 <<setw(20)<<formatTime(plane.estimatedArrivalTime)
                 <<setw(20)<<plane.PlaneSt<<endl;
         }
-        for (const auto& plane : leavingPlanes) {
+        for (const auto& plane : CargoPlanes) {
 
             cout<< setw(5) << rowNum++
                 <<setw(20)<<plane.model
@@ -62,13 +66,20 @@ public:
                 <<setw(20)<<formatTime(plane.estimatedArrivalTime)
                 <<setw(20)<<plane.PlaneSt<<endl;
         }
+
     }
-    void addArrivingPlaneToAirport(Plane p1,vector <Plane> arrivingPlanes){
-        arrivingPlanes.push_back(p1);
+    void addPlaneToAirport(CargoPlane& p1) {
+            CargoPlanes.push_back(p1);
+
     }
-    void addLeavingPlaneToAirport(Plane p1,vector <Plane> leavingPlanes){
-        leavingPlanes.push_back(p1);
+    void addPlaneToAirport(CommercialPlane& p1){
+            CommercialPlanes.push_back(p1);
     }
+
+    void addPlaneToAirport(MilitaryPlane& p1){
+            MilitaryPlanes.push_back(p1);
+    }
+
     int findDistance(string city1, string city2){
 
         if((city1 == "istanbul" && city2 == "newyork")||(city1 == "newyork" && city2 == "istanbul"))
