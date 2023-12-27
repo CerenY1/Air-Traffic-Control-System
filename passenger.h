@@ -2,7 +2,7 @@
 #define UNTITLED2_PASSENGER_H
 
 #include <vector>
-#include "Ticket.h"
+#include "ticket.h"
 #include <iostream>
 using namespace std;
 
@@ -18,11 +18,10 @@ public:
     friend class Ticket;
     vector<CargoTicket> CargoTickets;
     vector<CommercialTicket> CommercialTickets;
-    Passenger(string n="", string g="", int a=0) : name{n}, gender{g}, age{a} {}
+    Passenger() : name(""), gender(""), age(0) {}
     string getName() { return name;}
     string getGender() { return gender;}
     int getAge() { return age;}
-
     void setName(string name1) { this->name = name1; }
     void setGender(string gender1) { this->gender = gender1; }
     void setAge(int age1) { this->age = age1; }
@@ -42,7 +41,6 @@ public:
     void addCommercialTicket(CommercialTicket& commercialTicket) {
         CommercialTickets.push_back(commercialTicket);
     }
-
     void enterPassengerInfo(){
         cout << "Enter fly from: ";
         cin >> currentLocation;
