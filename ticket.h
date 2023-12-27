@@ -18,12 +18,11 @@ private:
     int travelDuration;
     int passengerIdentity;
 
-    Ticket(string dep = "", string arr = "", int seat = 0, double cost =0 , string dateTime = "", int duration = 0 ,int identity = 0) : departureCity(dep),
-    arrivalCity(arr), seatNum(seat), price(cost),dateAndTime(dateTime), travelDuration(duration), passengerIdentity(identity) {}
+    Ticket(string dep = "", string arr = "", int seat = 0, double cost =0 , string dateTime = "", int duration = 0 ,int identity = 0)
+    : departureCity(dep),arrivalCity(arr), seatNum(seat), price(cost),dateAndTime(dateTime), travelDuration(duration), passengerIdentity(identity) {}
 public:
     friend class passenger;
     virtual void showBill(Plane& plane) = 0; // abstraction ya da polimorfizm için tekrar bak.
-    Passenger passenger;
     bool checkPlaneSt(Plane& plane)
     {
         if(plane.PlaneSt == "Available")
@@ -41,7 +40,7 @@ class CommercialTicket : public Ticket{
     int *ticketNumbers;
     int price = 0;
 public:
-     void sellTicket(Passenger& passenger, CommercialPlane& commertialPlane)
+    void sellTicket(Passenger& passenger, CommercialPlane& commertialPlane)
     {   string name,gender;
         int age;
         passenger.enterPassengerInfo();
@@ -58,9 +57,8 @@ public:
             if(commertialPlane.getTicketNum()- *ticketNumbers >=0)
             {
                 commertialPlane.setTicketNum(*ticketNumbers);
-                price = ticketNumbers * commertialPlane.getTicketPrice();
+                price = *ticketNumbers * commertialPlane.getTicketPrice();
                 cout << ticketNumbers << " ticket(s) is/are sold." << endl;
-                Passenger :: addTicket(Ticket& ticket) //devam edicez.
             }
             else
             {
@@ -79,15 +77,14 @@ public:
         cout << "Ticket price:" << price << "$" << endl;
         cout << "-------------------------" << endl;
         cout <<"Plane Information:"<< endl;
+
     }
 };
 
 class CargoTicket : public Ticket{
-
-    friend class Passenger;
     int price=0;
 public:
-    Passenger.enterPassengerInfo();
+
     void sellTicket(Passenger& passenger, CargoPlane& plane)
     {
         if(plane.checkPlaneSt(plane))
@@ -95,8 +92,8 @@ public:
             int cargoWeight;
             cout << "How many kilograms are your cargo?" << endl;
             cin >> cargoWeight;
-            CargoPlane.addCargo(cargoWeight);
-            price = CargoPlane.ticketPrice*cargoWeight;
+            plane.addCargo(cargoWeight);
+            price = plane.getTicketPrice()*cargoWeight;
         }
         else
         {
@@ -135,5 +132,4 @@ public:
 
 
 #endif
-
-#endif //UNTITLED2_TICKET_H
+ //UNTITLED2_TICKET_H
