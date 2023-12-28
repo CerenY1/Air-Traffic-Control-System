@@ -23,20 +23,20 @@ public:
     string getDepartureCity(){
         return departureCity;
     }
-    tm calculateArrivalTime(string c1, string c2){
+    int calculateArrivalTime(string c1, string c2) {
         int distance;
+        int travelDuration;  // travelDuration'ı int olarak tanımla
         if ((c1 == "newyork" && c2 == "paris") || (c1 == "paris" && c2 == "newyork")) {
             distance = 6000.0;
-            travelDuration = distance/ this->speed;
+            travelDuration = distance / this->speed;
         } else if ((c1 == "newyork" && c2 == "istanbul") || (c1 == "istanbul" && c2 == "newyork")) {
             distance = 8000.0;
-            travelDuration = distance/ this->speed;
+            travelDuration = distance / this->speed;
         } else if ((c1 == "paris" && c2 == "istanbul") || (c1 == "istanbul" && c2 == "paris")) {
             distance = 2000.0;
-            travelDuration = distance/ this->speed;
+            travelDuration = distance / this->speed;
         }
-        string time = to_string(this->travelDuration);
-        return formatTime2(time);
+        return travelDuration;  // int olarak döndür
     }
     // Helper function to convert string to tm:
     tm formatTime2(const string& timeStr) {
@@ -58,18 +58,6 @@ public:
         cout << "Price: " << price << "$" << endl;
         cout<< "-------------------------------------------" <<endl;
     }
-    void enterInfo(){
-        char timeStr[10];
-        strftime(timeStr, sizeof(timeStr), "%Y-%m-%d %H:%M:%S", &departureTime);
-        cout << "Departure City: " << endl;
-        cin >> this->departureCity;
-        cout << "Arrival City: "<< endl;
-        cin >>this->landingCity;
-        calculateArrivalTime(departureCity,landingCity);
-        cout<< "-------------------------------------------" <<endl;
-        displayInfo();
-    }
-
 protected:
     tm departureTime;
     tm estimatedArrivalTime;
