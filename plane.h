@@ -84,8 +84,6 @@ protected:
     const int istToNy = 200;
     const int parToNy = 250;
     const int speed;
-    //calculate arrival time !!!!!
-
 
 };
 class CommercialPlane : public Plane{
