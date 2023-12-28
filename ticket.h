@@ -4,9 +4,7 @@
 #include <string>
 #include "plane.h"
 #include "passenger.h"
-
 using namespace std;
-
 class Ticket{
 
 private:
@@ -18,11 +16,11 @@ private:
     int travelDuration;
     int passengerIdentity;
 
-    Ticket(string dep = "", string arr = "", int seat = 0, double cost =0 , string dateTime = "", int duration = 0 ,int identity = 0)
-    : departureCity(dep),arrivalCity(arr), seatNum(seat), price(cost),dateAndTime(dateTime), travelDuration(duration), passengerIdentity(identity) {}
 public:
     friend class passenger;
-    virtual void showBill(Plane& plane) = 0; // abstraction ya da polimorfizm için tekrar bak.
+    Ticket(string dep = "",string arr = "", int seat = 0, double cost = 0,string dateTime = "", int duration = 0, int identity = 0)
+            : departureCity(dep), arrivalCity(arr), seatNum(seat), price(cost), dateAndTime(dateTime), travelDuration(duration), passengerIdentity(identity){}
+    virtual void showBill() = 0; // abstraction ya da polimorfizm için tekrar bak.
     bool checkPlaneSt(Plane& plane)
     {
         if(plane.PlaneSt == "Available")
@@ -31,105 +29,87 @@ public:
             return 0;
     }
     virtual ~Ticket(){}
-
 };
 
 class CommercialTicket : public Ticket{
     friend class Plane;
-    friend class Passenger;
     int *ticketNumbers;
-    int price = 0;
+    int totalPrice = 0;
+    int *price = 0;
 public:
-    void sellTicket(Passenger& passenger, CommercialPlane& commertialPlane)
-    {   string name,gender;
-        int age;
-        passenger.enterPassengerInfo();
-        cout << "Enter your gender (M/F) :";
-        cin>>name;
-        passenger.setName(name);
-        cout << "Enter your age: ";
-        cin >> age;
-        passenger.setAge(age);// 18 yaşından büyük küçük olma durumuna sonra bak.
-        if(commertialPlane.checkPlaneSt(commertialPlane))
-        {
+    void sellTicket(CommercialPlane& commertialPlane){
+        if(commertialPlane.checkPlaneSt(commertialPlane)){
             cout << "How many tickets do you want to buy?" << endl;
             cin >> *ticketNumbers;
             if(commertialPlane.getTicketNum()- *ticketNumbers >=0)
-            {
+            {   totalPrice = 0;
                 commertialPlane.setTicketNum(*ticketNumbers);
-                price = *ticketNumbers * commertialPlane.getTicketPrice();
+                totalPrice = *ticketNumbers * commertialPlane.getTicketPrice();
                 cout << ticketNumbers << " ticket(s) is/are sold." << endl;
+                *price = commertialPlane.getTicketPrice();
+                *ticketNumbers = 0;
             }
-            else
-            {
+            else{
                 cout << "There is no enough ticket." << endl;
             }
         }
-        else
-        {
+        else{
             cout <<  "Plane is not available."<< endl;
         }
     }
-    virtual void showBill(Plane& plane)override{
+    virtual void showBill()override{
         cout << "-------------------------" << endl;
         cout << "Bill Information:" << endl;
-        passenger.disPlayInfoCommercial();
-        cout << "Ticket price:" << price << "$" << endl;
+        cout << "Ticket price:" << *price << "$" << endl;
+        cout << "Total Price:" << totalPrice << endl;
         cout << "-------------------------" << endl;
         cout <<"Plane Information:"<< endl;
-
     }
 };
 
 class CargoTicket : public Ticket{
-    int price=0;
+    int *price;
+    int cargoWeight = 0;
+    int totalPrice = 0;
 public:
-
-    void sellTicket(Passenger& passenger, CargoPlane& plane)
-    {
+    void sellTicket(CargoPlane& plane){
         if(plane.checkPlaneSt(plane))
-        {
-            int cargoWeight;
+        {   totalPrice= 0;
             cout << "How many kilograms are your cargo?" << endl;
             cin >> cargoWeight;
             plane.addCargo(cargoWeight);
-            price = plane.getTicketPrice()*cargoWeight;
+            totalPrice = plane.getTicketPrice()*cargoWeight;
+            *price = plane.getTicketPrice();
         }
-        else
-        {
+        else{
             cout << "Plane is not available." << endl;
         }
     }
-    virtual void showBill(Plane& plane)override
-    {
+    virtual void showBill()override{
         cout << "-------------------------" << endl;
         cout << "Bill Information:" << endl;
-        passenger.disPlayInfoCargo();
-        cout << "Price : " << price << "$" << endl;
-
+        cout << "Ticket price:" << *price << "$" << endl;
+        cout << "Total Price: "<< totalPrice;
+        cout << "-------------------------" << endl;
+        cout <<"Plane Information:"<< endl;
     }
 };
 
 class PrivateTicket : public Ticket{
     friend class Passenger;
+    string name;
     const int ticketPrice=5000;
 public:
 
-    void sellTicket(PrivatePlane& privatePlane)   {
-        privatePlane.pilotList();
-        passenger.disPlayInfoPrivate();
+    void sellTicket(PrivatePlane& privatePlane){
+        name = privatePlane.pilotList();
     }
-
-    virtual void showBill(Plane& plane)override
-    {
+    virtual void showBill()override{
         cout << "-------------------------" << endl;
         cout << "Bill Information:" << endl;
-        passenger.disPlayInfoPrivate();
+        cout << "Pilot Name: "<< name << endl;
         cout<< "Price : " << ticketPrice << "$"<< endl;
-
     }
 };
-
-
 #endif
- //UNTITLED2_TICKET_H
+//UNTITLED2_TICKET_H
