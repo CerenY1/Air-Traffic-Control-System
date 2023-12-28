@@ -21,7 +21,7 @@ public:
     Airport(const string name):airportName(name){}
 
     void printWelcomeAirport(Meteorology& todaysWeather){
-        cout<<"-------------welcome to "<<this->airportName <<" airport--------------"<<endl<<endl<<endl;
+        cout<<"-------------welcome to "<< this->airportName <<" airport--------------"<<endl;
         todaysWeather.printWeatherInfo();
         time_t timeNow = time(NULL);
         cout << "TIME : " << ctime(&timeNow);
@@ -37,32 +37,32 @@ public:
     void printAirportInfo(){
         time_t timeNow1 = time(NULL);
         int rowNum = 1;
-        cout<<left<<setw(20) <<"Flight Number"
-            <<setw(15)	<< "Flight"
-            <<setw(15) << "Departure City"
-            <<setw(15)<< "Landing City"
-            <<setw(15) << "Departure Time"
-            <<setw(15) << "Arrival Time"
-            <<setw(15)<<"Status"<< endl;
+        cout << left << setw(10) << "Flight"
+             << left << setw(20) << "Model"
+             << left << setw(15) << "Departure City"
+             << left << setw(15) << "Landing City"
+             << left << setw(15) << "Departure Time"
+             << left << setw(15) << "Arrival Time"
+             << left << setw(15) << "Status" << endl;
+
         for (const auto& plane : CommercialPlanes) {
-
-            cout<< setw(5) << rowNum++
-                <<setw(15)<<plane.model
-                <<setw(15)<<plane.departureCity
-                <<setw(15)<<plane.landingCity
-                <<setw(15)<<formatTime(plane.departureTime)
-                <<setw(15)<<formatTime(plane.estimatedArrivalTime)
-                <<setw(15)<<plane.PlaneSt<<endl;
+            cout << left << setw(10) << rowNum++
+                 << left << setw(20) << plane.model
+                 << left << setw(15) << plane.departureCity
+                 << left << setw(15) << plane.landingCity
+                 << left << setw(15) << formatTime(plane.departureTime)
+                 << left << setw(15) << formatTime(plane.estimatedArrivalTime)
+                 << left << setw(15) << plane.PlaneSt << endl;
         }
-        for (const auto& plane : CargoPlanes) {
 
-            cout<< setw(5) << rowNum++
-                <<setw(15)<<plane.model
-                <<setw(15)<<plane.departureCity
-                <<setw(15)<<plane.landingCity
-                <<setw(15)<<formatTime(plane.departureTime)
-                <<setw(15)<<formatTime(plane.estimatedArrivalTime)
-                <<setw(15)<<plane.PlaneSt<<endl;
+        for (const auto& plane : CargoPlanes) {
+            cout << left << setw(10) << rowNum++
+                 << left << setw(20) << plane.model
+                 << left << setw(15) << plane.departureCity
+                 << left << setw(15) << plane.landingCity
+                 << left << setw(15) << formatTime(plane.departureTime)
+                 << left << setw(15) << formatTime(plane.estimatedArrivalTime)
+                 << left << setw(15) << plane.PlaneSt << endl;
         }
 
     }
