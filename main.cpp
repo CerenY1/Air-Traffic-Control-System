@@ -23,28 +23,50 @@ int main() {
         cin >> choice;
         while (choice == 1) {
             Staff staff;
-            cout << "Choose plane type:" << endl;
-            cout << "1.Commercial Plane" << endl;
-            cout << "2.Private Plane" << endl;
-            cout << "3.Military Plane" << endl;
-            cout << "4.Cargo Plane" << endl;
-            cin >> choice2;
-            if (choice2 == 1) {
-                CommercialPlane *commercialPlane = new CommercialPlane;
-                commercialPlane->enterInfo();
-                if (commercialPlane->getDepartureCity() == "istanbul" || commercialPlane->getArrivalCity() == "istanbul") {
-                    istanbul.addPlaneToAirport(*commercialPlane);
-                    commercialPlane->disPlayInfo();
+            string planeType;
+            planeType = staff.takeFlightInfo();
+
+            if (planeType == "commercialPlane"){
+                static CommercialPlane commercialPlane;
+                staff.enterFlight(commercialPlane);
+                if ((commercialPlane.getArrivalCity() == "newyork"|| commercialPlane.getDepartureCity() == "newyork")) {
+                   newyork.CommercialPlanes.push_back(commercialPlane);
                 }
-                else if (commercialPlane->getDepartureCity() == "paris" ||commercialPlane->getArrivalCity() == "paris") {
-                    paris.addPlaneToAirport(*commercialPlane);
-                    commercialPlane->disPlayInfo();
+                if ((commercialPlane.getDepartureCity() == "istanbul")||(commercialPlane.getArrivalCity() == "istanbul")) {
+                    istanbul.CommercialPlanes.push_back(commercialPlane);
                 }
-                else if (commercialPlane->getDepartureCity() == "newyork" || commercialPlane->getArrivalCity() == "newyork") {
-                    newyork.addPlaneToAirport(*commercialPlane);
-                    commercialPlane->disPlayInfo();
+                if ((commercialPlane.getDepartureCity() == "paris")||(commercialPlane.getArrivalCity() == "paris")) {
+                    paris.CommercialPlanes.push_back(commercialPlane);
                 }
             }
+            else if (planeType =="cargoPlane") {
+                static CargoPlane cargoPlane;
+                staff.enterFlight(cargoPlane);
+                if ((cargoPlane.getArrivalCity() == "newyork"|| cargoPlane.getDepartureCity() == "newyork")) {
+                    newyork.CargoPlanes.push_back(cargoPlane);
+                }
+                if ((cargoPlane.getDepartureCity() == "istanbul")||(cargoPlane.getArrivalCity() == "istanbul")) {
+                    istanbul.CargoPlanes.push_back(cargoPlane);
+                }
+                if ((cargoPlane.getDepartureCity() == "paris")||(cargoPlane.getArrivalCity() == "paris")) {
+                    paris.CargoPlanes.push_back(cargoPlane);
+                }
+            }
+            else if(planeType =="militaryPlane") {
+                static MilitaryPlane militaryPlane;
+                staff.enterFlight(militaryPlane);
+                if ((militaryPlane.getArrivalCity() == "newyork"|| militaryPlane.getDepartureCity() == "newyork")) {
+                    newyork.MilitaryPlanes.push_back(militaryPlane);
+                }
+                if ((militaryPlane.getDepartureCity() == "istanbul")||(militaryPlane.getArrivalCity() == "istanbul")) {
+                    istanbul.MilitaryPlanes.push_back(militaryPlane);
+                }
+                if ((militaryPlane.getDepartureCity() == "paris")||(militaryPlane.getArrivalCity() == "paris")) {
+                    paris.MilitaryPlanes.push_back(militaryPlane);
+                }
+            }
+            cout<< "press 3 to go back"<<endl;
+            cin>>choice;
         }
         while (choice == 2) {
             Passenger passenger;
@@ -111,8 +133,6 @@ int main() {
             } else
                 cout << "location not found.." << endl;
         }
-        cout << "Press 3 to return to main menu." << endl;
-        cin >> choice;
     }while(choice==3);
 
     return 0;
