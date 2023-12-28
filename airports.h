@@ -15,7 +15,7 @@ private:
 
 public:
     vector <CommercialPlane> CommercialPlanes;
-    vector <CargoPlane >CargoPlanes;
+    vector <CargoPlane>CargoPlanes;
     vector <MilitaryPlane> MilitaryPlanes;
 
     Airport(const string name):airportName(name){}
@@ -38,31 +38,31 @@ public:
         time_t timeNow1 = time(NULL);
         int rowNum = 1;
         cout<<left<<setw(20) <<"Flight Number"
-            <<setw(20)	<< "Flight"
-            <<setw(20) << "Departure City"
-            <<setw(20)<< "Landing City"
-            <<setw(20) << "Departure Time"
-            <<setw(20) << "Arrival Time"
-            <<setw(20)<<"Status"<< endl;
+            <<setw(15)	<< "Flight"
+            <<setw(15) << "Departure City"
+            <<setw(15)<< "Landing City"
+            <<setw(15) << "Departure Time"
+            <<setw(15) << "Arrival Time"
+            <<setw(15)<<"Status"<< endl;
         for (const auto& plane : CommercialPlanes) {
 
             cout<< setw(5) << rowNum++
-                <<setw(20)<<plane.model
-                <<setw(20)<<plane.departureCity
-                <<setw(20)<<plane.landingCity
-                <<setw(20)<<formatTime(plane.departureTime)
-                <<setw(20)<<formatTime(plane.estimatedArrivalTime)
-                <<setw(20)<<plane.PlaneSt<<endl;
+                <<setw(15)<<plane.model
+                <<setw(15)<<plane.departureCity
+                <<setw(15)<<plane.landingCity
+                <<setw(15)<<formatTime(plane.departureTime)
+                <<setw(15)<<formatTime(plane.estimatedArrivalTime)
+                <<setw(15)<<plane.PlaneSt<<endl;
         }
         for (const auto& plane : CargoPlanes) {
 
             cout<< setw(5) << rowNum++
-                <<setw(20)<<plane.model
-                <<setw(20)<<plane.departureCity
-                <<setw(20)<<plane.landingCity
-                <<setw(20)<<formatTime(plane.departureTime)
-                <<setw(20)<<formatTime(plane.estimatedArrivalTime)
-                <<setw(20)<<plane.PlaneSt<<endl;
+                <<setw(15)<<plane.model
+                <<setw(15)<<plane.departureCity
+                <<setw(15)<<plane.landingCity
+                <<setw(15)<<formatTime(plane.departureTime)
+                <<setw(15)<<formatTime(plane.estimatedArrivalTime)
+                <<setw(15)<<plane.PlaneSt<<endl;
         }
 
     }
