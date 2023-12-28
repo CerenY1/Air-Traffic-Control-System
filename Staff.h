@@ -9,18 +9,23 @@ using namespace std;
 
 class Staff {
 public:
-    void compareTimes(const tm &staffTime, const tm &currentTime, const int duration, Plane &plane) {
+    string compareTimes(const tm &staffTime, const tm &currentTime, const int duration, Plane &plane) {
         time_t staffTimeSeconds = staffTime.tm_hour * 3600 + staffTime.tm_min * 60;
         time_t currentTimeSeconds = currentTime.tm_hour * 3600 + currentTime.tm_min * 60;
 
-        if (staffTimeSeconds > currentTimeSeconds)
-            plane.PlaneSt = "Available";
-        else if (staffTimeSeconds > currentTimeSeconds + duration * 60)
-            plane.PlaneSt = "On Air";
-        else
-            plane.PlaneSt = "Landed";
+        try {
+            if (staffTimeSeconds > currentTimeSeconds) {
+                plane.PlaneSt = "Available";
+                cout << "Departure Time is set to: " << formatTime(staffTime, "%H:%M") << endl;
+                cout << "Arrival Time is set to: " << formatTime(plane.estimatedArrivalTime, "%H:%M") << endl;
+                return "Available";
+            }
+            else
+                throw runtime_error("ERROR");
+        } catch (const exception &e) {
+            return " NOT available. Wrong time adjusment!";
+        }
     }
-
     string formatTime(const tm &time, const string &format) {
         char array1[10];
         strftime(array1, sizeof(array1), format.c_str(), &time);
@@ -38,13 +43,11 @@ public:
         cin >> plane.departureCity;
         cout << "Enter the city where the plane will land:" << endl;
         cin >> plane.landingCity;
-        duration = 15;
+        duration = plane.calculateArrivalTime(plane.landingCity,plane.departureCity);
 
         tm staffTime = {};
         cout << "Enter the departure hour: ";
-        cin >> hour;
-        cout << "Enter the departure minute: ";
-        cin >> minute;
+        cin >> hour >> minute;
         staffTime.tm_hour = hour;
         staffTime.tm_min = minute;
 
@@ -52,39 +55,30 @@ public:
         time_t t = time(0);
         tm *currentTime = localtime(&t);
 
-        cout << "Departure Time is set to: " << formatTime(staffTime, "%H:%M") << endl;
-        cout << "Arrival Time is set to: " << formatTime(result1, "%H:%M") << endl;
-        compareTimes(staffTime, *currentTime, duration, plane);
-        cout << "The plane is now: " << plane.PlaneSt << endl;
+        string st1;
+        st1 = compareTimes(staffTime, *currentTime, duration, plane);
+        cout << "The plane is now: " << st1 << endl;
     }
-    Plane takeFlightInfo() {
+    string takeFlightInfo() {
         int planeNum;
+        string str;
         cout << "Choose a plane:" << endl;
         cout << "1-> Commercial Plane" << endl;
         cout << "2-> Cargo Plane" << endl;
         cout << "3-> Military Plane" << endl;
         cin >> planeNum;
-
-        switch (planeNum) {
-            case 1: {
-                CommercialPlane commercialPlane;
-                enterFlight(commercialPlane);
-                return commercialPlane;
-            }
-            case 2: {
-                CargoPlane cargoPlane;
-                enterFlight(cargoPlane);
-                return cargoPlane;
-            }
-            case 3: {
-                MilitaryPlane militaryPlane;
-                enterFlight(militaryPlane);
-                return militaryPlane;
-            }
-            default:
-                throw runtime_error("Invalid plane selection");
+        switch(planeNum) {
+            case 1:
+                str =  "commercialPlane";
+                break;
+            case 2:
+                str = "cargoPlane";
+                break;
+            case 3:
+                str = "militaryPlane";
+                break;
         }
+        return str;
     }
 };
-
 #endif //UNTITLED2_STAFF_H
