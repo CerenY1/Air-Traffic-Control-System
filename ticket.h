@@ -5,8 +5,8 @@
 #include "plane.h"
 #include "passenger.h"
 using namespace std;
-class Ticket{
 
+class Ticket{
 private:
     string departureCity;
     string arrivalCity;
@@ -20,7 +20,9 @@ public:
     friend class passenger;
     Ticket(string dep = "",string arr = "", int seat = 0, double cost = 0,string dateTime = "", int duration = 0, int identity = 0)
             : departureCity(dep), arrivalCity(arr), seatNum(seat), price(cost), dateAndTime(dateTime), travelDuration(duration), passengerIdentity(identity){}
-    virtual void showBill() = 0; // abstraction ya da polimorfizm için tekrar bak.
+    virtual void showBill(){
+        cout << "Bill Information:" << endl;
+    } // abstraction ya da polimorfizm için tekrar bak.
     bool checkPlaneSt(Plane& plane)
     {
         if(plane.PlaneSt == "Available")
@@ -33,21 +35,23 @@ public:
 
 class CommercialTicket : public Ticket{
     friend class Plane;
-    int *ticketNumbers;
+    int ticketNumbers = 0;
     int totalPrice = 0;
-    int *price = 0;
+    int price = 0;
 public:
+
     void sellTicket(CommercialPlane& commertialPlane){
-        if(commertialPlane.checkPlaneSt(commertialPlane)){
+        if(commertialPlane.checkPlaneSt()){
             cout << "How many tickets do you want to buy?" << endl;
-            cin >> *ticketNumbers;
-            if(commertialPlane.getTicketNum()- *ticketNumbers >=0)
-            {   totalPrice = 0;
-                commertialPlane.setTicketNum(*ticketNumbers);
-                totalPrice = *ticketNumbers * commertialPlane.getTicketPrice();
+            cin >> ticketNumbers;
+            if(commertialPlane.getTicketNum()- ticketNumbers >=0)
+            {
+                commertialPlane.setTicketNum(ticketNumbers);
+                totalPrice = ticketNumbers * (commertialPlane.getTicketPrice());
                 cout << ticketNumbers << " ticket(s) is/are sold." << endl;
-                *price = commertialPlane.getTicketPrice();
-                *ticketNumbers = 0;
+                cout << commertialPlane.getTicketNum()-(ticketNumbers) << endl;
+                price = commertialPlane.getTicketPrice();
+                ticketNumbers = 0;
             }
             else{
                 cout << "There is no enough ticket." << endl;
@@ -59,12 +63,12 @@ public:
     }
     virtual void showBill()override{
         cout << "-------------------------" << endl;
-        cout << "Bill Information:" << endl;
-        cout << "Ticket price:" << *price << "$" << endl;
-        cout << "Total Price:" << totalPrice << endl;
+        cout << "Ticket price:" << 100 << "$" << endl;
+        cout << "Total Price:" << this->totalPrice << endl;
         cout << "-------------------------" << endl;
         cout <<"Plane Information:"<< endl;
     }
+
 };
 
 class CargoTicket : public Ticket{
@@ -73,7 +77,7 @@ class CargoTicket : public Ticket{
     int totalPrice = 0;
 public:
     void sellTicket(CargoPlane& plane){
-        if(plane.checkPlaneSt(plane))
+        if(plane.checkPlaneSt())
         {   totalPrice= 0;
             cout << "How many kilograms are your cargo?" << endl;
             cin >> cargoWeight;
@@ -87,9 +91,8 @@ public:
     }
     virtual void showBill()override{
         cout << "-------------------------" << endl;
-        cout << "Bill Information:" << endl;
         cout << "Ticket price:" << *price << "$" << endl;
-        cout << "Total Price: "<< totalPrice;
+        cout << "Total Price: "<< totalPrice << "$" << endl ;
         cout << "-------------------------" << endl;
         cout <<"Plane Information:"<< endl;
     }
@@ -106,10 +109,9 @@ public:
     }
     virtual void showBill()override{
         cout << "-------------------------" << endl;
-        cout << "Bill Information:" << endl;
+
         cout << "Pilot Name: "<< name << endl;
         cout<< "Price : " << ticketPrice << "$"<< endl;
     }
 };
 #endif
-//UNTITLED2_TICKET_H
