@@ -8,6 +8,8 @@
 #include "ticket.h"
 #include <ctime>
 #include <string>
+#include <chrono>
+#include <thread>
 
 using namespace std;
 
@@ -30,7 +32,7 @@ int main() {
                 static CommercialPlane commercialPlane;
                 staff.enterFlight(commercialPlane);
                 if ((commercialPlane.getArrivalCity() == "newyork"|| commercialPlane.getDepartureCity() == "newyork")) {
-                   newyork.CommercialPlanes.push_back(commercialPlane);
+                    newyork.CommercialPlanes.push_back(commercialPlane);
                 }
                 if ((commercialPlane.getDepartureCity() == "istanbul")||(commercialPlane.getArrivalCity() == "istanbul")) {
                     istanbul.CommercialPlanes.push_back(commercialPlane);
@@ -74,21 +76,35 @@ int main() {
             int rowNum = 0;
             if (passenger.getCurrentLocation() == "istanbul") {
                 istanbul.printWelcomeAirport(todaysWeather);
-                while (rowNum == 0) {
+                while (true) {
                     istanbul.printAirportInfo();
-                    cout << "enter the plane number to buy a ticket:";
+                    cout << "Choose the flight number to buy a ticket:";
                     cin >> rowNum;
-                    if (rowNum <= istanbul.CommercialPlanes.size()) {
+
+                    if (rowNum > 0 && rowNum <= istanbul.CommercialPlanes.size()) {
                         CommercialTicket *ticket = new CommercialTicket;
-                        ticket->sellTicket(istanbul.CommercialPlanes[rowNum]);
-                    } else {
+                        ticket->sellTicket(istanbul.CommercialPlanes[rowNum - 1]);
+                        Ticket ticket1;
+                        CommercialTicket commercialticket1;
+                        Ticket *ptrPlane = &ticket1;
+                        Ticket *ptrCommertialTicket = &commercialticket1;
+                        ptrPlane->showBill();
+                        ptrCommertialTicket->showBill();
+
+                    } else if (rowNum > istanbul.CommercialPlanes.size() &&
+                               rowNum <= istanbul.CargoPlanes.size() + istanbul.CommercialPlanes.size()) {
                         CargoTicket *ticket = new CargoTicket;
-                        ticket->sellTicket(istanbul.CargoPlanes[rowNum - istanbul.CargoPlanes.size()]);
+                        ticket->sellTicket(istanbul.CargoPlanes[rowNum - istanbul.CommercialPlanes.size() - 1]);
+                    } else {
+                        cout << "Invalid choice. Please try again." << endl;
                     }
-                    cout << "waiting for update..." << endl;
-                    cin >> rowNum;
-                    time_t start_time = time(NULL);
-                    while (time(NULL) - start_time < 60) {}
+
+                    // Add a delay of 1 minute (60 seconds) using ctime
+                    cout << "Waiting for update..." << endl;
+                    time_t start_time = time(nullptr);
+                    while (time(nullptr) - start_time < 60) {
+                        this_thread::sleep_for(chrono::seconds(1));
+                    }
                 }
             } else if (passenger.getCurrentLocation() == "paris") {
                 paris.printWelcomeAirport(todaysWeather);
@@ -98,7 +114,8 @@ int main() {
                     cin >> rowNum;
                     if (rowNum <= paris.CommercialPlanes.size()) {
                         CommercialTicket *ticket = new CommercialTicket;
-                        ticket->sellTicket(paris.CommercialPlanes[rowNum]);
+                        cout << paris.CommercialPlanes[rowNum].getPlaneSt();
+                        ticket->sellTicket(paris.CommercialPlanes[rowNum - 1]);
                     } else {
                         int a;
                         CargoTicket *ticket = new CargoTicket;
@@ -119,7 +136,7 @@ int main() {
                     cin >> rowNum;
                     if (rowNum >= newyork.CommercialPlanes.size()) {
                         CommercialTicket *ticket = new CommercialTicket;
-                        ticket->sellTicket(newyork.CommercialPlanes[rowNum]);
+                        ticket->sellTicket(newyork.CommercialPlanes[rowNum - 1]);
                     } else {
                         CargoTicket *ticket = new CargoTicket;
                         ticket->sellTicket(newyork.CargoPlanes[rowNum - newyork.CommercialPlanes.size()]);
