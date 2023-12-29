@@ -38,17 +38,7 @@ public:
         }
         return travelDuration;  // int olarak döndür
     }
-    // Helper function to convert string to tm:
-    tm formatTime2(const string& timeStr) {
-        tm parsedTime = {};
-        return parsedTime;
-    }
-    bool checkPlaneSt(Plane& plane){
-        if (plane.PlaneSt == "Available")
-            return 1;
-        else
-            return 0;
-    }
+
     void displayInfo() {
         char timeStr[10];
         strftime(timeStr, sizeof(timeStr), "%Y-%m-%d %H:%M:%S", &departureTime);
@@ -57,6 +47,32 @@ public:
         cout << "Model: " << model << endl;
         cout << "Price: " << price << "$" << endl;
         cout<< "-------------------------------------------" <<endl;
+    }
+    void setArrivalTime(const tm time){
+        estimatedArrivalTime = time;
+    }
+    void setDepartureTime(const tm time){
+        departureTime= time;
+    }
+    tm getDepartureTime(){
+        return departureTime;
+    }
+    tm formatTime2(const string& timeStr) {
+        tm parsedTime = {};
+        return parsedTime;
+    }
+    tm getEstimatedArrivalTime(){
+        return estimatedArrivalTime;
+    }
+    bool checkPlaneSt(){
+        if (PlaneSt == "Available")
+            return 1;
+        else
+            return 0;
+    }
+
+    string getPlaneSt(){
+        return PlaneSt;
     }
 protected:
     tm departureTime;
@@ -83,13 +99,14 @@ public:
                     int capacity = 0, double price = 0.0, const string depCity = "", const string landCity = "",const int sp = 100)
             : Plane(depTime, estArrivalTime, duration, mdl, capacity, price, depCity, landCity,sp) {
         ticketNum = 5;
-        ticketPrice = 50;
+        ticketPrice = 100;
     }
     void disPlayInfo(){
         Plane::displayInfo();
     }
     void setTicketNum(int tickets){
-        ticketNum -=tickets;}
+        ticketNum -=tickets;
+    }
     int getTicketNum(){
         return ticketNum;
     }
@@ -127,8 +144,8 @@ public:
 
 class CargoPlane : public Plane {
 private:
-    double cargoCapacity=0;
-    double currentCargoWeight=0;
+    int cargoCapacity=0;
+    int currentCargoWeight=0;
     int ticketPrice;
 public:
     CargoPlane(string depTime = " ", string estArrivalTime = " ", double duration = 0, const string mdl = "",
@@ -139,7 +156,7 @@ public:
     int getTicketPrice(){
         return ticketPrice;
     }
-    void addCargo(double weight) {
+    void addCargo(int weight) {
         if (currentCargoWeight + weight <= cargoCapacity) {
             currentCargoWeight += weight;
             cout << "Cargo added. Current Cargo Weight: " << currentCargoWeight << " tons" <<endl;
