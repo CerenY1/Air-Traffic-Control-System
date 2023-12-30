@@ -107,10 +107,16 @@ int main() {
                                 ptrCommertialTicket->showBill(totalPrice);
                                 cout << istanbul.CommercialPlanes[rowNum - 1].getTicketNum() << endl;
 
-                            } else if (rowNum > istanbul.CommercialPlanes.size() &&
-                                       rowNum <= istanbul.CargoPlanes.size() + istanbul.CommercialPlanes.size()) {
+                            } else if (rowNum > istanbul.CommercialPlanes.size() && rowNum <= istanbul.CargoPlanes.size() + istanbul.CommercialPlanes.size()) {
                                 CargoTicket *ticket = new CargoTicket;
+                                int totalPrice = ticket->sellTicket(istanbul.CargoPlanes[rowNum - 1]);
                                 ticket->sellTicket(istanbul.CargoPlanes[rowNum - istanbul.CommercialPlanes.size() - 1]);
+                                Ticket ticket1;
+                                CargoTicket cargoticket1;
+                                Ticket *ptrPlane = &ticket1;
+                                Ticket *ptrCargoTicket = &cargoticket1;
+                                ptrPlane->showBill(totalPrice);
+                                ptrCargoTicket->showBill(totalPrice);
                             } else {
                                 cout << "Invalid choice. Please try again." << endl;
                             }
@@ -131,12 +137,26 @@ int main() {
                             if (rowNum <= paris.CommercialPlanes.size()) {
                                 CommercialTicket *ticket = new CommercialTicket;
                                 cout << paris.CommercialPlanes[rowNum].getPlaneSt();
+                                int totalPrice = ticket->sellTicket(istanbul.CommercialPlanes[rowNum - 1]);
                                 ticket->sellTicket(paris.CommercialPlanes[rowNum - 1]);
+                                Ticket ticket1;
+                                CommercialTicket commercialticket1;
+                                Ticket *ptrPlane = &ticket1;
+                                Ticket *ptrCommertialTicket = &commercialticket1;
+                                ptrPlane->showBill(totalPrice);
+                                ptrCommertialTicket->showBill(totalPrice);
                             } else {
                                 int a;
                                 CargoTicket *ticket = new CargoTicket;
+                                int totalPrice = ticket->sellTicket(istanbul.CargoPlanes[rowNum - 1]);
                                 a = rowNum - paris.CommercialPlanes.size();
                                 ticket->sellTicket(paris.CargoPlanes[a]);
+                                Ticket ticket1;
+                                CargoTicket cargoticket1;
+                                Ticket *ptrPlane = &ticket1;
+                                Ticket *ptrCargoTicket = &cargoticket1;
+                                ptrPlane->showBill(totalPrice);
+                                ptrCargoTicket->showBill(totalPrice);
                             }
                             cout << "waiting for update..." << endl;
                             cin >> rowNum;
@@ -152,10 +172,24 @@ int main() {
                             cin >> rowNum;
                             if (rowNum >= newyork.CommercialPlanes.size()) {
                                 CommercialTicket *ticket = new CommercialTicket;
+                                int totalPrice = ticket->sellTicket(istanbul.CommercialPlanes[rowNum - 1]);
                                 ticket->sellTicket(newyork.CommercialPlanes[rowNum - 1]);
+                                Ticket ticket1;
+                                CommercialTicket commercialticket1;
+                                Ticket *ptrPlane = &ticket1;
+                                Ticket *ptrCommertialTicket = &commercialticket1;
+                                ptrPlane->showBill(totalPrice);
+                                ptrCommertialTicket->showBill(totalPrice);
                             } else {
                                 CargoTicket *ticket = new CargoTicket;
+                                int totalPrice = ticket->sellTicket(istanbul.CargoPlanes[rowNum - 1]);
                                 ticket->sellTicket(newyork.CargoPlanes[rowNum - newyork.CommercialPlanes.size()]);
+                                Ticket ticket1;
+                                CargoTicket cargoticket1;
+                                Ticket *ptrPlane = &ticket1;
+                                Ticket *ptrCargoTicket = &cargoticket1;
+                                ptrPlane->showBill(totalPrice);
+                                ptrCargoTicket->showBill(totalPrice);
                             }
                             cout << "waiting for update..." << endl;
                             cin >> rowNum;
@@ -181,7 +215,7 @@ int main() {
     return 0;
 }
 
-    }while(choice==3);
+}while(choice==3);
 
-    return 0;
+return 0;
 }
