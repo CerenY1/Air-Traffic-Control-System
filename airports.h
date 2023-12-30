@@ -16,7 +16,7 @@ private:
 public:
     vector <CommercialPlane> CommercialPlanes;
     vector <CargoPlane>CargoPlanes;
-    vector <MilitaryPlane> MilitaryPlanes;
+    vector <MilitaryPlane> PrivatePlanes;
 
     Airport(const string name):airportName(name){}
 
@@ -43,26 +43,31 @@ public:
              << left << setw(15) << "Landing City"
              << left << setw(15) << "Departure Time"
              << left << setw(15) << "Arrival Time"
-             << left << setw(15) << "Status" << endl;
+             << left << setw(15) << "Status"
+             << left << setw(15) << "Capacity"
+             <<left<<setw(15)<<"Price"<<endl;
 
         for (const auto& plane : CommercialPlanes) {
             cout << left << setw(10) << rowNum++
-                 << left << setw(20) << plane.model
+                 << left << setw(20) << "Commercial Plane"
                  << left << setw(15) << plane.departureCity
                  << left << setw(15) << plane.landingCity
                  << left << setw(15) << formatTime(plane.departureTime)
                  << left << setw(15) << formatTime(plane.estimatedArrivalTime)
-                 << left << setw(15) << plane.PlaneSt << endl;
+                 << left << setw(15) << plane.PlaneSt
+                 << left << setw(15) <<"100$"<<endl;
         }
 
         for (const auto& plane : CargoPlanes) {
             cout << left << setw(10) << rowNum++
-                 << left << setw(20) << plane.model
+                 << left << setw(20) << "Cargo Plane"
                  << left << setw(15) << plane.departureCity
                  << left << setw(15) << plane.landingCity
                  << left << setw(15) << formatTime(plane.departureTime)
                  << left << setw(15) << formatTime(plane.estimatedArrivalTime)
-                 << left << setw(15) << plane.PlaneSt << endl;
+                 << left << setw(15) << plane.PlaneSt
+                << left << setw(15) <<"150$"<<endl;
+
         }
 
     }
@@ -74,8 +79,8 @@ public:
         CommercialPlanes.push_back(p1);
     }
 
-    void addPlaneToAirport(MilitaryPlane& p1){
-        MilitaryPlanes.push_back(p1);
+    void addPlaneToAirport(PrivatePlane& p1){
+        PrivatePlanes.push_back(p1);
     }
 };
 #endif //UNTITLED2_AIRPORT_H
