@@ -115,11 +115,9 @@ public:
     }
     virtual void showBill(int totalPrice)override{
         cout << "-------------------------" << endl;
-
         cout << "Pilot Name: "<< name << endl;
         cout<< "Price : " << ticketPrice << "$"<< endl;
     }
 };
 #endif
 //UNTITLED2_TICKET_H
-
