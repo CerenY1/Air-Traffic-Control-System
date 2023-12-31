@@ -108,7 +108,14 @@ public:
         ticketNum -=tickets;
     }
     int getTicketNum(){
-        return ticketNum;
+        if(ticketNum < 0)
+        {
+            return 0;
+        }
+        else
+        {
+            return ticketNum;
+        }
     }
     int getTicketPrice(){
         return ticketPrice;
