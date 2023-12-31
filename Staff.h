@@ -67,7 +67,7 @@ public:
         cout << "Choose a plane:" << endl;
         cout << "1-> Commercial Plane" << endl;
         cout << "2-> Cargo Plane" << endl;
-        cout << "3-> Military Plane" << endl;
+        cout << "3-> Private Plane" << endl;
         cin >> planeNum;
         switch(planeNum) {
             case 1:
@@ -77,7 +77,7 @@ public:
                 str = "cargoPlane";
                 break;
             case 3:
-                str = "militaryPlane";
+                str = "privatePlane";
                 break;
         }
         return str;
