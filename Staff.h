@@ -9,65 +9,62 @@ using namespace std;
 
 class Staff {
 public:
-    void enterFlight(Plane &plane) {
+    void enterFlight(Plane& plane) {
         int duration;
-        cout << "Enter the city of departure:" << endl;
+        cout << "Enter the city of departure (istanbul,paris,newyork): " << endl;
         cin >> plane.departureCity;
-        cout << "Enter the city where the plane will land:" << endl;
+        cout << "Enter the city where the plane will land (istanbul,paris,newyork):" << endl;
         cin >> plane.landingCity;
-        duration = plane.calculateArrivalTime(plane.getArrivalCity(), plane.getDepartureCity());
+
+        duration = plane.calculateArrivalTime(plane.landingCity, plane.departureCity);
 
         tm durationTime = {};
         durationTime.tm_hour = duration / 60;
         durationTime.tm_min = duration % 60;
 
         tm staffTime;
-        cout << "Enter flight time: " << endl;
+        cout << "Enter flight time (HH MM): " << endl;
         cin >> staffTime.tm_hour >> staffTime.tm_min;
 
-        // Move this line after reading input for staffTime
         plane.setDepartureTime(staffTime);
+
+        time_t currentTime = time(nullptr);
+        tm* timeStruct = localtime(&currentTime);
 
         int totalMinutes = durationTime.tm_hour * 60 + durationTime.tm_min +
                            staffTime.tm_hour * 60 + staffTime.tm_min;
-
         tm totalTime = {};
         totalTime.tm_hour = totalMinutes / 60;
         totalTime.tm_min = totalMinutes % 60;
+
         plane.setArrivalTime(totalTime);
-
-
-        tm currentTime = getCurrentTime();  // Store the result in a local variable
         tm departureTime = plane.getDepartureTime();
-        tm estimatedArrivalTime = plane.getEstimatedArrivalTime();
+        tm estimatedArrivalTime;
+        estimatedArrivalTime.tm_hour = departureTime.tm_hour + durationTime.tm_hour;
+        estimatedArrivalTime.tm_min = departureTime.tm_min + durationTime.tm_min;
 
-        if (mktime(&currentTime) >= mktime(&departureTime) &&
-            mktime(&currentTime) <= mktime(&estimatedArrivalTime)) {
-            plane.PlaneSt = "Landed";
-        } else if (mktime(&currentTime) < mktime(&departureTime)) {
-            plane.PlaneSt = ("Available");
+        int departureMinutes = departureTime.tm_hour * 60 + departureTime.tm_min;
+        int arrivalMinutes = estimatedArrivalTime.tm_hour * 60 + estimatedArrivalTime.tm_min;
+        int currentMinutes = timeStruct->tm_hour*60+ timeStruct->tm_min;
+
+        if (currentMinutes >= departureMinutes && currentMinutes < arrivalMinutes) {
+            plane.setPlaneSt("On the air");
+        } else if (currentMinutes >= arrivalMinutes) {
+            plane.setPlaneSt("Landed");
         } else {
-            plane.PlaneSt = ("Unknown");
+            plane.setPlaneSt("Available");
         }
-
+        cout << "Departure time: "<<plane.getDepartureTime().tm_hour <<":"<<plane.getDepartureTime().tm_min<<endl;
         cout << "Estimated arrival time: " << plane.getEstimatedArrivalTime().tm_hour
-             << ":" << plane.getEstimatedArrivalTime().tm_min << endl;
-        cout << plane.getPlaneSt()<<endl;
+                  << ":" << plane.getEstimatedArrivalTime().tm_min << endl;
+        cout << "Plane is now: " << plane.getPlaneSt() <<endl;
     }
-
-    static tm getCurrentTime() {
-        time_t now = time(nullptr);
-        return *localtime(&now);
-    }
-
-
     string takeFlightInfo() {
         int planeNum;
         string str;
         cout << "Choose a plane:" << endl;
         cout << "1-> Commercial Plane" << endl;
         cout << "2-> Cargo Plane" << endl;
-        cout << "3-> Private Plane" << endl;
         cin >> planeNum;
         switch(planeNum) {
             case 1:
@@ -75,9 +72,6 @@ public:
                 break;
             case 2:
                 str = "cargoPlane";
-                break;
-            case 3:
-                str = "privatePlane";
                 break;
         }
         return str;
