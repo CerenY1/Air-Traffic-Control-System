@@ -13,13 +13,11 @@ class Meteorology{
 protected:
     float temperature;
     float windSpeed;
-    bool fog;
 public:
     Meteorology(){
         srand(static_cast<unsigned>(time(0)));
         temperature = rand()%60;
         windSpeed = rand()%60;
-        fog = rand()%2;
     }
     float getTemperature(){
         return temperature;
@@ -27,36 +25,21 @@ public:
     float getWindSpeed(){
         return windSpeed;
     }
-    bool getFog(){
-        return fog;
-    }
     void printWeatherInfo(){
 
         cout<<"----today's weather info----"<<endl<<endl;
-        cout<<"temperature: "<<temperature<<" °C"<<endl;
-        cout<<"wind speed: "<<windSpeed<<" km/h"<<endl;
-        if(fog == 0)
-            cout<<"not foggy"<<endl;
-        else
-            cout<<"foggy"<<endl;
+        cout<<"temperature: "<<temperature<<" C"<<endl;
+        cout<<"wind speed: "<<windSpeed<<" km/h"<<endl<<endl;
     }
-    bool checkWeather(){//havadaki sis durumuna ve rüzgar hýzýna göre uçuþ uygunluðuna kara verir.
-
-        if(windSpeed<41){
-            if(fog ==0){
-                cout<<"weather is VALID for the flight."<<endl;
-                return 1;
-            }
-            else{
-                cout << "weather is INVALID for the flight." << endl;
-                return false;
-            }
+    bool checkWeather(){//havadaki sis durumuna ve rüzgar hızına göre uçus uygunluðuna kara verir.
+        if(windSpeed<41) {
+            cout << "weather is VALID for the flight." << endl;
+            return 1;
         }
         else{
-            cout<<"weather is INVALID for the flight."<<endl;
-            return 0;
+            cout << "weather is INVALID for the flight." << endl;
+            return false;
         }
     }
 };
-
 #endif //UNTITLED2_METEOROLOGY_H
