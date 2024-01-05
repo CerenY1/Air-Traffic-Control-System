@@ -16,6 +16,7 @@ int main() {
     Airport istanbul("ISTANBUL");
     Airport newyork("NEWYORK");
     Airport paris("PARİS");
+    vector<Ticket> dynamicTicket;
     do {
         cout <<"---------AIR TRAFFIC CONTROL SYSTEM----------"<<endl;
         cout << "choose one:" << endl << "1-> Staff" << endl << "2-> Passenger" << endl<<endl;
@@ -42,6 +43,7 @@ int main() {
                             (commercialPlane.getArrivalCity() == "paris")) {
                             paris.CommercialPlanes.push_back(commercialPlane);
                         }
+
                     }
                 } else if (planeType == "cargoPlane") {
                     if(todaysWeather.checkWeather()) {
@@ -98,6 +100,8 @@ int main() {
                                     p = &istanbul.CommercialPlanes[rowNum - 1];
                                     p->displayInfo();
                                     passenger.displayInfo();
+                                    istanbul.CommercialTickets.push_back(*ticket);
+                                    dynamicTicket.push_back(CommercialTicket(*ticket));
 
                                 } else if (rowNum > istanbul.CommercialPlanes.size() &&
                                            rowNum <= istanbul.CargoPlanes.size() + istanbul.CommercialPlanes.size()) {
@@ -113,6 +117,7 @@ int main() {
                                     p = &istanbul.CargoPlanes[rowNum - 1];
                                     p->displayInfo();
                                     passenger.displayInfo();
+                                    dynamicTicket.push_back(CargoTicket(*ticket));
                                 }
                             }
                         }
@@ -136,7 +141,7 @@ int main() {
                                     p = &paris.CommercialPlanes[rowNum - 1];
                                     p->displayInfo();
                                     passenger.displayInfo();
-
+                                    dynamicTicket.push_back(CommercialTicket(*ticket));
                                 } else if (rowNum > paris.CommercialPlanes.size() &&
                                            rowNum <= paris.CargoPlanes.size() + paris.CommercialPlanes.size()) {
                                     CargoTicket *ticket = new CargoTicket;
@@ -151,6 +156,7 @@ int main() {
                                     p = &paris.CargoPlanes[rowNum - 1];
                                     p->displayInfo();
                                     passenger.displayInfo();
+                                    dynamicTicket.push_back(CargoTicket(*ticket));
                                 }
                             }
 
@@ -174,6 +180,7 @@ int main() {
                                     p = &newyork.CommercialPlanes[rowNum - 1];
                                     p->displayInfo();
                                     passenger.displayInfo();
+                                    dynamicTicket.push_back(CommercialTicket(*ticket));
 
                                 } else if (rowNum > newyork.CommercialPlanes.size() &&
                                            rowNum <= newyork.CargoPlanes.size() + newyork.CommercialPlanes.size()) {
@@ -189,6 +196,7 @@ int main() {
                                     p = &newyork.CargoPlanes[rowNum - 1];
                                     p->displayInfo();
                                     passenger.displayInfo();
+                                    dynamicTicket.push_back(CargoTicket(*ticket));
                                 }
                             }
                         } else
@@ -228,6 +236,7 @@ int main() {
                             ptrPlane->showBill(totalPrice);
                             ptrPrivateTicket->showBill(totalPrice);
                             privatePlane.displayInfo();
+                            dynamicTicket.push_back(PrivateTicket(*ticket));
                         }
                     }
                     cout << "Press 3 to go back menu, 4 to exit" << endl;
@@ -246,5 +255,8 @@ int main() {
                 break;
         }
     }while(true);
+
+dynamicTicket.clear();
+
     return 0;
 }
