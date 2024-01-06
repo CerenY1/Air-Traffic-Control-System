@@ -2,7 +2,7 @@
 #include <vector>
 #include "plane.h"
 #include "staff.h"
-#include "airport.h"
+#include "airports.h"
 #include "meteorology.h"
 #include "passenger.h"
 #include "ticket.h"
@@ -16,6 +16,7 @@ int main() {
     Airport istanbul("ISTANBUL");
     Airport newyork("NEWYORK");
     Airport paris("PARİS");
+    vector<Ticket> dynamicTicket;
     do {
         cout <<"---------AIR TRAFFIC CONTROL SYSTEM----------"<<endl;
         cout << "choose one:" << endl << "1-> Staff" << endl << "2-> Passenger" << endl<<endl;
@@ -42,6 +43,7 @@ int main() {
                             (commercialPlane.getArrivalCity() == "paris")) {
                             paris.CommercialPlanes.push_back(commercialPlane);
                         }
+
                     }
                 } else if (planeType == "cargoPlane") {
                     if(todaysWeather.checkWeather()) {
@@ -78,7 +80,6 @@ int main() {
                     if (planeChoice == 1) {
                         Passenger passenger;
                         passenger.enterPassengerInfo();
-                        // İstanbul
                         if (passenger.getCurrentLocation() == "istanbul") {
                             rowNum = 0;
                             istanbul.printWelcomeAirport(todaysWeather);
@@ -92,116 +93,34 @@ int main() {
                                     Ticket ticket1;
                                     CommercialTicket commercialticket1;
                                     Ticket *ptrPlane = &ticket1;
-                                    Ticket *ptrCommercialTicket = &commercialticket1;
+                                    Ticket *ptrCommertialTicket = &commercialticket1;
                                     ptrPlane->showBill(totalPrice);
-                                    ptrCommercialTicket->showBill(totalPrice);
+                                    ptrCommertialTicket->showBill(totalPrice);
                                     Plane *p;
                                     p = &istanbul.CommercialPlanes[rowNum - 1];
                                     p->displayInfo();
                                     passenger.displayInfo();
-                                }
-                                else if (rowNum > istanbul.CommercialPlanes.size() &&
-                                    rowNum <= istanbul.CargoPlanes.size() + istanbul.CommercialPlanes.size()) {
-                                    int cargoIndex = rowNum - istanbul.CommercialPlanes.size() - 1;
-                                    if (cargoIndex >= 0 && cargoIndex < istanbul.CargoPlanes.size()) {
-                                        CargoTicket *ticket = new CargoTicket;
-                                        int totalPrice = ticket->sellTicket(istanbul.CargoPlanes[cargoIndex]);
-                                        Ticket ticket1;
-                                        CargoTicket cargoticket1;
-                                        Ticket *ptrPlane = &ticket1;
-                                        Ticket *ptrCargoTicket = &cargoticket1;
-                                        ptrPlane->showBill(totalPrice);
-                                        ptrCargoTicket->showBill(totalPrice);
-                                        Plane *p;
-                                        p = &istanbul.CargoPlanes[cargoIndex];
-                                        p->displayInfo();
-                                        passenger.displayInfo();
-                                    }
+                                    dynamicTicket.push_back(CommercialTicket(*ticket));
+
+                                } else if (rowNum > istanbul.CommercialPlanes.size() &&
+                                           rowNum <= istanbul.CargoPlanes.size() + istanbul.CommercialPlanes.size()) {
+                                    CargoTicket *ticket = new CargoTicket;
+                                    int totalPrice = ticket->sellTicket(istanbul.CargoPlanes[rowNum - istanbul.CommercialPlanes.size() - 1]);
+                                    Ticket ticket1;
+                                    CargoTicket cargoticket1;
+                                    Ticket *ptrPlane = &ticket1;
+                                    Ticket *ptrCargoTicket = &cargoticket1;
+                                    ptrPlane->showBill(totalPrice);
+                                    ptrCargoTicket->showBill(totalPrice);
+                                    Plane *p;
+                                    p = &istanbul.CargoPlanes[rowNum - 1];
+                                    p->displayInfo();
+                                    passenger.displayInfo();
+                                    dynamicTicket.push_back(CargoTicket(*ticket));
                                 }
                             }
                         }
                         else if (passenger.getCurrentLocation() == "paris") {
-                        // Paris
-                        rowNum = 0;
-                        paris.printWelcomeAirport(todaysWeather);
-                        paris.printAirportInfo();
-                        cout << "Choose the flight number to buy a ticket:";
-                        while (rowNum == 0) {
-                            cin >> rowNum;
-                            if (rowNum > 0 && rowNum <= paris.CommercialPlanes.size()) {
-                                CommercialTicket *ticket = new CommercialTicket;
-                                int totalPrice = ticket->sellTicket(paris.CommercialPlanes[rowNum - 1]);
-                                Ticket ticket1;
-                                CommercialTicket commercialticket1;
-                                Ticket *ptrPlane = &ticket1;
-                                Ticket *ptrCommercialTicket = &commercialticket1;
-                                ptrPlane->showBill(totalPrice);
-                                ptrCommercialTicket->showBill(totalPrice);
-                                Plane *p;
-                                p = &paris.CommercialPlanes[rowNum - 1];
-                                p->displayInfo();
-                                passenger.displayInfo();
-                            } else if (rowNum > paris.CommercialPlanes.size() &&
-                                       rowNum <= paris.CargoPlanes.size() + paris.CommercialPlanes.size()) {
-                                int cargoIndex = rowNum - paris.CommercialPlanes.size() - 1;
-                                if (cargoIndex >= 0 && cargoIndex < paris.CargoPlanes.size()) {
-                                    CargoTicket *ticket = new CargoTicket;
-                                    int totalPrice = ticket->sellTicket(paris.CargoPlanes[cargoIndex]);
-                                    Ticket ticket1;
-                                    CargoTicket cargoticket1;
-                                    Ticket *ptrPlane = &ticket1;
-                                    Ticket *ptrCargoTicket = &cargoticket1;
-                                    ptrPlane->showBill(totalPrice);
-                                    ptrCargoTicket->showBill(totalPrice);
-                                    Plane *p;
-                                    p = &paris.CargoPlanes[cargoIndex];
-                                    p->displayInfo();
-                                    passenger.displayInfo();
-                                }
-                            }
-                        }
-                    } else if (passenger.getCurrentLocation() == "newyork") {
-                        // New York
-                        rowNum = 0;
-                        newyork.printWelcomeAirport(todaysWeather);
-                        newyork.printAirportInfo();
-                        cout << "Choose the flight number to buy a ticket:";
-                        while (rowNum == 0) {
-                            cin >> rowNum;
-                            if (rowNum > 0 && rowNum <= newyork.CommercialPlanes.size()) {
-                                CommercialTicket *ticket = new CommercialTicket;
-                                int totalPrice = ticket->sellTicket(newyork.CommercialPlanes[rowNum - 1]);
-                                Ticket ticket1;
-                                CommercialTicket commercialticket1;
-                                Ticket *ptrPlane = &ticket1;
-                                Ticket *ptrCommercialTicket = &commercialticket1;
-                                ptrPlane->showBill(totalPrice);
-                                ptrCommercialTicket->showBill(totalPrice);
-                                Plane *p;
-                                p = &newyork.CommercialPlanes[rowNum - 1];
-                                p->displayInfo();
-                                passenger.displayInfo();
-                            } else if (rowNum > newyork.CommercialPlanes.size() &&
-                                       rowNum <= newyork.CargoPlanes.size() + newyork.CommercialPlanes.size()) {
-                                int cargoIndex = rowNum - newyork.CommercialPlanes.size() - 1;
-                                if (cargoIndex >= 0 && cargoIndex < newyork.CargoPlanes.size()) {
-                                    CargoTicket *ticket = new CargoTicket;
-                                    int totalPrice = ticket->sellTicket(newyork.CargoPlanes[cargoIndex]);
-                                    Ticket ticket1;
-                                    CargoTicket cargoticket1;
-                                    Ticket *ptrPlane = &ticket1;
-                                    Ticket *ptrCargoTicket = &cargoticket1;
-                                    ptrPlane->showBill(totalPrice);
-                                    ptrCargoTicket->showBill(totalPrice);
-                                    Plane *p;
-                                    p = &newyork.CargoPlanes[cargoIndex];
-                                    p->displayInfo();
-                                    passenger.displayInfo();
-                                }
-                            }
-                        }
-                    }
-                    else if (passenger.getCurrentLocation() == "paris") {
                             rowNum = 0;
                             paris.printWelcomeAirport(todaysWeather);
                             paris.printAirportInfo();
@@ -221,7 +140,7 @@ int main() {
                                     p = &paris.CommercialPlanes[rowNum - 1];
                                     p->displayInfo();
                                     passenger.displayInfo();
-
+                                    dynamicTicket.push_back(CommercialTicket(*ticket));
                                 } else if (rowNum > paris.CommercialPlanes.size() &&
                                            rowNum <= paris.CargoPlanes.size() + paris.CommercialPlanes.size()) {
                                     CargoTicket *ticket = new CargoTicket;
@@ -236,6 +155,7 @@ int main() {
                                     p = &paris.CargoPlanes[rowNum - 1];
                                     p->displayInfo();
                                     passenger.displayInfo();
+                                    dynamicTicket.push_back(CargoTicket(*ticket));
                                 }
                             }
 
@@ -259,6 +179,7 @@ int main() {
                                     p = &newyork.CommercialPlanes[rowNum - 1];
                                     p->displayInfo();
                                     passenger.displayInfo();
+                                    dynamicTicket.push_back(CommercialTicket(*ticket));
 
                                 } else if (rowNum > newyork.CommercialPlanes.size() &&
                                            rowNum <= newyork.CargoPlanes.size() + newyork.CommercialPlanes.size()) {
@@ -274,6 +195,7 @@ int main() {
                                     p = &newyork.CargoPlanes[rowNum - 1];
                                     p->displayInfo();
                                     passenger.displayInfo();
+                                    dynamicTicket.push_back(CargoTicket(*ticket));
                                 }
                             }
                         } else
@@ -313,6 +235,7 @@ int main() {
                             ptrPlane->showBill(totalPrice);
                             ptrPrivateTicket->showBill(totalPrice);
                             privatePlane.displayInfo();
+                            dynamicTicket.push_back(PrivateTicket(*ticket));
                         }
                     }
                     cout << "Press 3 to go back menu, 4 to exit" << endl;
@@ -331,5 +254,8 @@ int main() {
                 break;
         }
     }while(true);
+
+dynamicTicket.clear();
+
     return 0;
 }
