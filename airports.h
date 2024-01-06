@@ -50,7 +50,7 @@ public:
                  << left << setw(15) << formatTime(plane.departureTime)
                  << left << setw(15) << formatTime(plane.estimatedArrivalTime)
                  << left << setw(15) << plane.PlaneSt
-                 << left << setw(15) << "100$" << endl;
+                 << left << setw(15) << "250$" << endl;
         }
         for (const auto &plane : CargoPlanes) {
             cout << left << setw(10) << rowNum++
@@ -60,7 +60,7 @@ public:
                  << left << setw(15) << formatTime(plane.departureTime)
                  << left << setw(15) << formatTime(plane.estimatedArrivalTime)
                  << left << setw(15) << plane.PlaneSt
-                 << left << setw(15) << "150$" << endl;
+                 << left << setw(15) << "100$" << endl;
         }
     }
     void addPlaneToAirport(CargoPlane &p1){
