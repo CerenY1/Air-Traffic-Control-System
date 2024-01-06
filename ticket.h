@@ -15,7 +15,7 @@ public:
     friend class passenger;
     Ticket(string dep = "",string arr = "", int seat = 0, double cost = 0,string dateTime = "", int duration = 0, int identity = 0)
             : departureCity(dep), arrivalCity(arr), dateAndTime(dateTime){}
-    virtual void showBill(int ticketPrice){
+    virtual void showBill(int totalPrice){
         cout << "Bill Information:" << endl;
     }
     virtual ~Ticket(){}
