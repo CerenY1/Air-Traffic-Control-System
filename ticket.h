@@ -15,7 +15,7 @@ public:
     friend class passenger;
     Ticket(string dep = "",string arr = "", int seat = 0, double cost = 0,string dateTime = "", int duration = 0, int identity = 0)
             : departureCity(dep), arrivalCity(arr), dateAndTime(dateTime){}
-    virtual void showBill(int totalPrice){
+    virtual void showBill(int ticketPrice){
         cout << "Bill Information:" << endl;
     }
     virtual ~Ticket(){}
@@ -45,7 +45,7 @@ public:
         }
         return totalPrice;
     }
-    void showBill(int totalPrice)override{
+    virtual void showBill(int totalPrice)override{
         cout << "-------------------------" << endl;
         cout << "Ticket price:" << 250 << "$" << endl;
         cout << "Total Price:" << totalPrice << "$" << endl;
@@ -71,7 +71,7 @@ public:
             cout << "Plane is not available." << endl;
         return totalPrice;
     }
-    void showBill(int totalPrice)override{
+    virtual void showBill(int totalPrice)override{
         cout << "-------------------------" << endl;
         cout << "Ticket price:" << 100 << "$" << endl;
         cout << "Total Price: "<< totalPrice << "$" << endl ;
@@ -92,7 +92,7 @@ public:
         plane.displayInfo();
         return 1;
     }
-    void showBill(int totalPrice)override{
+    virtual void showBill(int totalPrice)override{
         cout << "-------------------------" << endl;
         cout<< "Price : " << ticketPrice << "$"<< endl;
 
