@@ -45,7 +45,7 @@ public:
         }
         return totalPrice;
     }
-    virtual void showBill(int totalPrice)override{
+    void showBill(int totalPrice)override{
         cout << "-------------------------" << endl;
         cout << "Ticket price:" << 250 << "$" << endl;
         cout << "Total Price:" << totalPrice << "$" << endl;
@@ -71,7 +71,7 @@ public:
             cout << "Plane is not available." << endl;
         return totalPrice;
     }
-    virtual void showBill(int totalPrice)override{
+    void showBill(int totalPrice)override{
         cout << "-------------------------" << endl;
         cout << "Ticket price:" << 100 << "$" << endl;
         cout << "Total Price: "<< totalPrice << "$" << endl ;
@@ -92,7 +92,7 @@ public:
         plane.displayInfo();
         return 1;
     }
-    virtual void showBill(int totalPrice)override{
+    void showBill(int totalPrice)override{
         cout << "-------------------------" << endl;
         cout<< "Price : " << ticketPrice << "$"<< endl;
 
